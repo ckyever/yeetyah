@@ -1,9 +1,9 @@
-import styles from "./styles/App.module.css";
+import { Outlet } from "react-router";
 
 function App() {
   return (
     <>
-      <h1 className={styles.app}>Yeetyah</h1>
+      <Outlet />
     </>
   );
 }
