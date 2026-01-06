@@ -1,5 +1,4 @@
 .page-authenticate {
-  margin: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,10 +7,11 @@
 }
 
 .authenticate-form {
+  margin: 20px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 280px;
+  width: 340px;
   text-align: center;
 }
 
