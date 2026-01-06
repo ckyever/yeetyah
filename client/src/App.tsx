@@ -1,9 +1,9 @@
-import "./App.css";
+import styles from "./styles/App.module.css";
 
 function App() {
   return (
     <>
-      <h1>Yeetyah</h1>
+      <h1 className={styles.app}>Yeetyah</h1>
     </>
   );
 }
