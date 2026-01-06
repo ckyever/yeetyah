@@ -1,7 +1,11 @@
-function Authenticate() {
+interface AuthenticateProps {
+  authMode: "Login" | "Signup";
+}
+
+function Authenticate({ authMode }: AuthenticateProps) {
   return (
     <>
-      <h1>Auth page</h1>
+      <h1>{authMode} Page</h1>
     </>
   );
 }

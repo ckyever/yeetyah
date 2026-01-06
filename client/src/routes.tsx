@@ -9,8 +9,8 @@ const routes = [
     element: <App />,
     children: [
       { index: true, element: <Home /> },
-      { path: "login", element: <Authenticate /> },
-      { path: "signup", element: <Authenticate /> },
+      { path: "login", element: <Authenticate authMode="Login" /> },
+      { path: "signup", element: <Authenticate authMode="Signup" /> },
     ],
     errorElement: <Error />,
   },
