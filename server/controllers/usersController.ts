@@ -1,3 +1,4 @@
+import { hash } from "bcryptjs";
 import type { Request, Response } from "express";
 import { constants as httpConstants } from "http2";
 
@@ -19,9 +20,12 @@ const createUser = async (req: Request<UserParams>, res: Response) => {
       .json({ message: "Invalid create user parameters" });
   }
 
+  const SALT_ROUNDS = 10;
+  const hashedPassword = await hash(password, SALT_ROUNDS);
+
   const newUser = await usersModel.createUser(
     username,
-    password,
+    hashedPassword,
     display_name,
     profile_image
   );
