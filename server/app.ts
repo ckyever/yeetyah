@@ -1,6 +1,10 @@
 import express from "express";
 
+import usersRouter from "./routes/usersRouter";
+
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => res.send("Hello there"));
 
@@ -9,10 +13,7 @@ const PORT = process.env.PORT || 3000;
 // Login a user - POST /api/auth/login
 // Logout a user - POST /api/auth/logout
 
-// Get users - GET /api/users
-// Create a user - POST /api/users
-// Get user profile - GET /api/users/:userId
-// Update profile - PUT /api/users/:userId
+app.use("/api/users", usersRouter);
 
 // Get chat list - GET /api/chats
 // View messages in chat - GET /api/chats/:chatId/messages
