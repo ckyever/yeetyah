@@ -17,4 +17,7 @@ model user {
   id Int @id @default(autoincrement())
   username String @unique
   password String
+  display_name String?
+  profile_image String?
+  is_logged_in Boolean @default(false)
 }
