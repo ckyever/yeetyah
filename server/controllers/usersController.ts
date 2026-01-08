@@ -53,7 +53,6 @@ const createUser = [
       profile_image: profileImage,
     } = validator.matchedData(req);
 
-    // Check if username already exists
     if (await usersModel.doesUsernameExist(username)) {
       return res
         .status(httpConstants.HTTP_STATUS_BAD_REQUEST)
@@ -101,4 +100,14 @@ const createUser = [
   },
 ];
 
-export { createUser };
+const isUsernameAvailable = async (req: Request<UserParams>, res: Response) => {
+  const { username } = req.params;
+
+  if (await usersModel.doesUsernameExist(username)) {
+    return res.json({ username, is_available: false });
+  } else {
+    return res.json({ username, is_available: true });
+  }
+};
+
+export { createUser, isUsernameAvailable };
