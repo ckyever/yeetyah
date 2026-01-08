@@ -1,9 +1,9 @@
-export interface FetchResult {
+export interface AuthResult {
   ok: boolean;
-  data: ResponseData;
+  data: AuthData;
 }
 
-interface ResponseData {
+interface AuthData {
   user_id?: string;
   token?: string;
   message?: string;
