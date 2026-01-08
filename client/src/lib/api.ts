@@ -1,3 +1,15 @@
+export interface FetchResult {
+  ok: boolean;
+  data: ResponseData;
+}
+
+interface ResponseData {
+  user_id?: string;
+  token?: string;
+  message?: string;
+  errors?: [ValidatorError];
+}
+
 export interface ValidatorError {
   type: string;
   value: string;
@@ -6,24 +18,12 @@ export interface ValidatorError {
   location: string;
 }
 
-export interface ResponseData {
-  user_id?: string;
-  token?: string;
-  message?: string;
-  errors?: [ValidatorError];
-}
-
-export interface FetchResult {
-  ok: boolean;
-  data: ResponseData;
-}
-
-async function apiFetch(url: string, init: RequestInit): Promise<FetchResult> {
+async function apiFetch<T>(url: string, init: RequestInit): Promise<T> {
   const response = await fetch(url, init);
   return {
     ok: response.ok,
     data: await response.json(),
-  };
+  } as T;
 }
 
 export { apiFetch };

@@ -33,7 +33,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
       console.log("Logging in");
     } else {
       const url = `${import.meta.env.VITE_SERVER_URL}/api/users`;
-      const result: api.FetchResult = await api.apiFetch(url, {
+      const result: api.FetchResult = await api.apiFetch<api.FetchResult>(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
