@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router";
 
+import * as api from "../lib/api";
+
+import ValidationErrors from "./ValidationErrors";
+
 import styles from "../styles/Authenticate.module.css";
 
 interface AuthenticateProps {
@@ -12,6 +16,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
   const handleAuthModeSwitch = () => {
     setUsername("");
@@ -20,10 +25,45 @@ function Authenticate({ authMode }: AuthenticateProps) {
     setConfirmPassword("");
   };
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setValidationErrors([]);
+
+    if (authMode === "Login") {
+      console.log("Logging in");
+    } else {
+      const url = `${import.meta.env.VITE_SERVER_URL}/api/users`;
+      const result: api.FetchResult = await api.apiFetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password, display_name: displayName }),
+      });
+
+      if (!result.ok) {
+        console.error("Failed to create an account");
+      }
+
+      if (result.data.errors) {
+        const errorMessages = result.data.errors.map(
+          (error: api.ValidatorError) => error.msg
+        );
+        setValidationErrors(errorMessages);
+      }
+
+      // CKYTODO Save token and bring user to home page
+    }
+  };
+
   return (
     <div className={styles["page-authenticate"]}>
-      <form className={styles["authenticate-form"]}>
+      <form
+        className={styles["authenticate-form"]}
+        onSubmit={(event) => handleSubmit(event)}
+      >
         <h1>{authMode === "Login" ? "Yeetyah" : "Sign Up"}</h1>
+        {validationErrors && <ValidationErrors errors={validationErrors} />}
         <div className={styles.field}>
           <label htmlFor="username">Username</label>
           <input
