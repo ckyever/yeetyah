@@ -53,6 +53,13 @@ const createUser = [
       profile_image: profileImage,
     } = validator.matchedData(req);
 
+    // Check if username already exists
+    if (await usersModel.doesUsernameExist(username)) {
+      return res
+        .status(httpConstants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: "This username is not available" });
+    }
+
     const SALT_ROUNDS = 10;
     const hashedPassword = await hash(password, SALT_ROUNDS);
 
