@@ -41,16 +41,17 @@ function Authenticate({ authMode }: AuthenticateProps) {
         body: JSON.stringify({ username, password, display_name: displayName }),
       });
 
+      const errorMessages: string[] = [];
       if (!result.ok) {
-        console.error("Failed to create an account");
+        errorMessages.push("Unable to create an account");
       }
 
       if (result.data.errors) {
-        const errorMessages = result.data.errors.map(
-          (error: api.ValidatorError) => error.msg
+        errorMessages.push(
+          ...result.data.errors.map((error: api.ValidatorError) => error.msg)
         );
-        setValidationErrors(errorMessages);
       }
+      setValidationErrors(errorMessages);
 
       // CKYTODO Save token and bring user to home page
     }
