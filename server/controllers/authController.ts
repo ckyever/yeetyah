@@ -21,7 +21,7 @@ const loginUser = [
     if (!user) {
       return res
         .status(httpConstants.HTTP_STATUS_UNAUTHORIZED)
-        .json({ errors: ["Username or password is incorrect"] });
+        .json({ errors: [{ msg: "Username or password is incorrect" }] });
     }
 
     const isValidPassword = await compare(password, user.password);
@@ -29,7 +29,7 @@ const loginUser = [
     if (!isValidPassword) {
       return res
         .status(httpConstants.HTTP_STATUS_UNAUTHORIZED)
-        .json({ errors: ["Username or password is incorrect"] });
+        .json({ errors: [{ msg: "Username or password is incorrect" }] });
     }
 
     if (!process.env.SECRET_KEY) {
