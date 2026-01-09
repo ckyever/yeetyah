@@ -44,7 +44,8 @@ const loginUser = [
           .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
           .json({ message: "Failed to get token" });
       }
-      return res.json({ user_id: user.id, token });
+      const { password, ...userWithoutPassword } = user;
+      return res.json({ user: userWithoutPassword, token });
     });
   },
 ];

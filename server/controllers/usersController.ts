@@ -91,9 +91,10 @@ const createUser = [
             .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
             .json({ message: "Failed to get a token" });
         } else {
+          const { password, ...userWithoutPassword } = newUser;
           return res
             .status(httpConstants.HTTP_STATUS_CREATED)
-            .json({ user_id: newUser.id, token });
+            .json({ user: userWithoutPassword, token });
         }
       }
     );

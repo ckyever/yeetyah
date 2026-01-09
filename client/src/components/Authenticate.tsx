@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useOutletContext } from "react-router";
 import { useNavigate } from "react-router-dom";
 
 import * as api from "../lib/api";
@@ -24,6 +24,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
   const [usernameAvailability, setUsernameAvailability] = useState("");
 
   const navigate = useNavigate();
+  const { setUserToken, setUser } = useOutletContext();
 
   const isLogin = authMode === "Login";
 
@@ -87,7 +88,6 @@ function Authenticate({ authMode }: AuthenticateProps) {
       },
       body: JSON.stringify({ username, password }),
     });
-    console.table(result);
 
     if (result.data.errors) {
       setValidationErrors(
@@ -95,9 +95,15 @@ function Authenticate({ authMode }: AuthenticateProps) {
       );
     } else {
       if (result.data.token) {
+        setUserToken(result.data.token);
+        setUser(result.data.user);
         localStorage.setItem(
           constants.LOCAL_STORAGE_KEY_USER_TOKEN,
           result.data.token
+        );
+        localStorage.setItem(
+          constants.LOCAL_STORAGE_KEY_USER,
+          JSON.stringify(result.data.user)
         );
         navigate("/", { replace: true });
       } else {
@@ -129,9 +135,15 @@ function Authenticate({ authMode }: AuthenticateProps) {
     }
 
     if (result.data.token) {
+      setUserToken(result.data.token);
+      setUser(result.data.user);
       localStorage.setItem(
         constants.LOCAL_STORAGE_KEY_USER_TOKEN,
         result.data.token
+      );
+      localStorage.setItem(
+        constants.LOCAL_STORAGE_KEY_USER,
+        JSON.stringify(result.data.user)
       );
       navigate("/", { replace: true });
     } else {

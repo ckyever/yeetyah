@@ -6,6 +6,7 @@ function Logout() {
 
   const handleLogout = () => {
     localStorage.removeItem(constants.LOCAL_STORAGE_KEY_USER_TOKEN);
+    localStorage.removeItem(constants.LOCAL_STORAGE_KEY_USER);
     navigate("/login", { replace: true });
   };
 

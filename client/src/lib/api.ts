@@ -14,10 +14,19 @@ export interface AuthResult extends FetchResult {
 }
 
 interface AuthData {
-  user_id?: string;
+  user?: User;
   token?: string;
   message?: string;
   errors?: [ValidatorError];
+}
+
+interface User {
+  username: string;
+  password: string;
+  display_name?: string;
+  profile_image?: string;
+  is_logged_in: boolean;
+  id: number;
 }
 
 export interface ValidatorError {
