@@ -26,6 +26,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
     setDisplayName("");
     setPassword("");
     setConfirmPassword("");
+    setUsernameAvailability("");
   };
 
   const handleUsernameChange = async (usernameInput: HTMLInputElement) => {
@@ -52,14 +53,27 @@ function Authenticate({ authMode }: AuthenticateProps) {
     }
   };
 
+  const handleConfirmPasswordChange = async (
+    confirmPasswordInput: HTMLInputElement
+  ) => {
+    const confirmPasswordValue = confirmPasswordInput.value;
+    setConfirmPassword(confirmPasswordValue);
+
+    if (confirmPasswordValue !== password) {
+      confirmPasswordInput.setCustomValidity("Passwords must match");
+    } else {
+      confirmPasswordInput.setCustomValidity("");
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setValidationErrors([]);
-    setUsernameAvailability("");
 
     if (authMode === "Login") {
       console.log("Logging in");
     } else {
+      setUsernameAvailability("");
       const url = `${SERVER_URL}/api/users`;
       const result: api.AuthResult = await api.apiFetch<api.AuthResult>(url, {
         method: "POST",
@@ -140,7 +154,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
               id="confirm-password"
               name="confirm-password"
               value={confirmPassword}
-              onChange={(event) => setConfirmPassword(event.target.value)}
+              onChange={(event) => handleConfirmPasswordChange(event.target)}
               required
             ></input>
           </div>
