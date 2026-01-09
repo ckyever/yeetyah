@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import * as api from "../lib/api";
 import * as constants from "../constants";
+import * as context from "../context";
 
 import ValidationErrors from "./ValidationErrors";
 
@@ -24,7 +25,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
   const [usernameAvailability, setUsernameAvailability] = useState("");
 
   const navigate = useNavigate();
-  const { setUserToken, setUser } = useOutletContext();
+  const { setUserToken, setUser } = useOutletContext<context.OutletContext>();
 
   const isLogin = authMode === "Login";
 

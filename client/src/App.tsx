@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router";
 
 import * as constants from "./constants";
+import * as context from "./context";
 
 function App() {
   const [userToken, setUserToken] = useState(
@@ -13,7 +14,16 @@ function App() {
 
   return (
     <>
-      <Outlet context={{ userToken, setUserToken, user, setUser }} />
+      <Outlet
+        context={
+          {
+            userToken,
+            setUserToken,
+            user,
+            setUser,
+          } satisfies context.OutletContext
+        }
+      />
     </>
   );
 }
