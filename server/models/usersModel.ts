@@ -17,6 +17,15 @@ const createUser = async (
   return newUser;
 };
 
+const getUserByUsername = async (username: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      username: username,
+    },
+  });
+  return user;
+};
+
 const doesUsernameExist = async (username: string) => {
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -26,4 +35,4 @@ const doesUsernameExist = async (username: string) => {
   return existingUser;
 };
 
-export { createUser, doesUsernameExist };
+export { createUser, getUserByUsername, doesUsernameExist };

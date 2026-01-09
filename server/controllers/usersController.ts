@@ -14,7 +14,7 @@ interface UserParams {
   profile_image: string;
 }
 
-const validateUser = [
+const validateCreateUser = [
   validator
     .body("username")
     .trim()
@@ -37,7 +37,7 @@ const validateUser = [
 ];
 
 const createUser = [
-  validateUser,
+  validateCreateUser,
   async (req: Request<UserParams>, res: Response, next: NextFunction) => {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {

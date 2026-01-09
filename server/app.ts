@@ -1,7 +1,8 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
 
 import usersRouter from "./routes/usersRouter";
+import authRouter from "./routes/authRouter";
 
 const app = express();
 app.use(cors());
@@ -12,9 +13,9 @@ app.get("/", (req, res) => res.send("Hello there"));
 
 const PORT = process.env.PORT || 3000;
 
-// Login a user - POST /api/auth/login
 // Logout a user - POST /api/auth/logout
 
+app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 
 // Get chat list - GET /api/chats
