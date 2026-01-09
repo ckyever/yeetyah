@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useNavigate } from "react-router-dom";
 
 import * as api from "../lib/api";
+import * as constants from "../constants";
 
 import ValidationErrors from "./ValidationErrors";
 
@@ -97,11 +98,18 @@ function Authenticate({ authMode }: AuthenticateProps) {
           ...result.data.errors.map((error: api.ValidatorError) => error.msg)
         );
       }
-      setValidationErrors(errorMessages);
 
-      if (result.ok) {
+      if (result.data.token) {
+        localStorage.setItem(
+          constants.LOCAL_STORAGE_KEY_USER_TOKEN,
+          result.data.token
+        );
         navigate("/", { replace: true });
+      } else {
+        errorMessages.push("Unable to sign in");
       }
+
+      setValidationErrors(errorMessages);
     }
   };
 
