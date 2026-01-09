@@ -25,6 +25,8 @@ function Authenticate({ authMode }: AuthenticateProps) {
 
   const navigate = useNavigate();
 
+  const isLogin = authMode === "Login";
+
   const handleAuthModeSwitch = () => {
     setUsername("");
     setDisplayName("");
@@ -37,6 +39,11 @@ function Authenticate({ authMode }: AuthenticateProps) {
   const handleUsernameChange = async (usernameInput: HTMLInputElement) => {
     const usernameValue = usernameInput.value;
     setUsername(usernameValue);
+
+    if (isLogin) {
+      return;
+    }
+
     usernameInput.setCustomValidity("");
 
     if (!usernameValue) {
@@ -68,6 +75,34 @@ function Authenticate({ authMode }: AuthenticateProps) {
       confirmPasswordInput.setCustomValidity("Passwords must match");
     } else {
       confirmPasswordInput.setCustomValidity("");
+    }
+  };
+
+  const handleLogin = async () => {
+    const url = `${SERVER_URL}/api/auth/login`;
+    const result: api.AuthResult = await api.apiFetch<api.AuthResult>(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+    console.table(result);
+
+    if (result.data.errors) {
+      setValidationErrors(
+        result.data.errors.map((error: api.ValidatorError) => error.msg)
+      );
+    } else {
+      if (result.data.token) {
+        localStorage.setItem(
+          constants.LOCAL_STORAGE_KEY_USER_TOKEN,
+          result.data.token
+        );
+        navigate("/", { replace: true });
+      } else {
+        setValidationErrors(["Unable to login"]);
+      }
     }
   };
 
@@ -109,8 +144,8 @@ function Authenticate({ authMode }: AuthenticateProps) {
     event.preventDefault();
     setValidationErrors([]);
 
-    if (authMode === "Login") {
-      console.log("Logging in");
+    if (isLogin) {
+      await handleLogin();
     } else {
       await handleSignup();
     }
@@ -122,7 +157,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
         className={styles["authenticate-form"]}
         onSubmit={(event) => handleSubmit(event)}
       >
-        <h1>{authMode === "Login" ? "Yeetyah" : "Sign Up"}</h1>
+        <h1>{isLogin ? "Yeetyah" : "Sign Up"}</h1>
         {validationErrors && <ValidationErrors errors={validationErrors} />}
         <div className={styles.field}>
           <div className={styles["field-header"]}>
@@ -139,7 +174,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
             maxLength={30}
           ></input>
         </div>
-        {authMode === "Signup" && (
+        {!isLogin && (
           <div className={styles.field}>
             <label htmlFor="display-name">Display Name</label>
             <input
@@ -163,7 +198,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
             minLength={8}
           ></input>
         </div>
-        {authMode === "Signup" && (
+        {!isLogin && (
           <div className={styles.field}>
             <label htmlFor="confirm-password">Confirm Password</label>
             <input
@@ -177,10 +212,10 @@ function Authenticate({ authMode }: AuthenticateProps) {
           </div>
         )}
         <button type="submit" className={styles["submit-button"]}>
-          {authMode === "Login" ? "Login" : "Create account"}
+          {isLogin ? "Login" : "Create account"}
         </button>
       </form>
-      {authMode === "Login" ? (
+      {isLogin ? (
         <p>
           New to Yeetyah?{" "}
           <Link onClick={handleAuthModeSwitch} to="/signup">
