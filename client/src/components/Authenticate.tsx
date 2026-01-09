@@ -171,7 +171,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
             value={username}
             onChange={(event) => handleUsernameChange(event.target)}
             required
-            maxLength={30}
+            maxLength={isLogin ? undefined : 30}
           ></input>
         </div>
         {!isLogin && (
@@ -195,7 +195,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
-            minLength={8}
+            minLength={isLogin ? undefined : 8}
           ></input>
         </div>
         {!isLogin && (
