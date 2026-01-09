@@ -10,7 +10,9 @@ function App() {
     localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER_TOKEN)
   );
   const [user, setUser] = useState<api.User>(
-    JSON.parse(localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER) ?? "")
+    localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER)
+      ? JSON.parse(localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER)!)
+      : null
   );
 
   return (
