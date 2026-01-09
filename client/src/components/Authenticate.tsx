@@ -28,23 +28,27 @@ function Authenticate({ authMode }: AuthenticateProps) {
     setConfirmPassword("");
   };
 
-  const handleUsernameChange = async (inputUsername: string) => {
-    setUsername(inputUsername);
+  const handleUsernameChange = async (usernameInput: HTMLInputElement) => {
+    const usernameValue = usernameInput.value;
+    setUsername(usernameValue);
+    usernameInput.setCustomValidity("");
 
-    if (!inputUsername) {
+    if (!usernameValue) {
       setUsernameAvailability("");
       return;
     }
 
     setUsernameAvailability("Checking...");
-    const url = `${SERVER_URL}/api/users/username/${inputUsername}`;
+    const url = `${SERVER_URL}/api/users/username/${usernameValue}`;
     const result: api.UsernameResult = await api.apiFetch<api.UsernameResult>(
       url
     );
     if (result.data.is_available) {
       setUsernameAvailability("This username is available");
+      usernameInput.setCustomValidity("");
     } else {
       setUsernameAvailability("This username is NOT available");
+      usernameInput.setCustomValidity("Username must be available");
     }
   };
 
@@ -99,7 +103,9 @@ function Authenticate({ authMode }: AuthenticateProps) {
             id="username"
             name="username"
             value={username}
-            onChange={(event) => handleUsernameChange(event.target.value)}
+            onChange={(event) => handleUsernameChange(event.target)}
+            required
+            maxLength={30}
           ></input>
         </div>
         {authMode === "Signup" && (
@@ -122,6 +128,8 @@ function Authenticate({ authMode }: AuthenticateProps) {
             name="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            required
+            minLength={8}
           ></input>
         </div>
         {authMode === "Signup" && (
@@ -133,6 +141,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
               name="confirm-password"
               value={confirmPassword}
               onChange={(event) => setConfirmPassword(event.target.value)}
+              required
             ></input>
           </div>
         )}
