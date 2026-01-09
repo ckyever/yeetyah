@@ -1,10 +1,17 @@
-import Logout from "./Logout";
+import { useOutletContext } from "react-router";
+
+import * as context from "../context";
+
+import Profile from "./Profile";
 
 function Home() {
+  const { user } = useOutletContext<context.OutletContext>();
   return (
     <>
-      <h1>Home page</h1>
-      <Logout />
+      <Profile
+        username={user && user.username}
+        displayName={(user && user.display_name) ?? null}
+      />
     </>
   );
 }
