@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import * as api from "../lib/api";
 
@@ -21,11 +22,14 @@ function Authenticate({ authMode }: AuthenticateProps) {
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [usernameAvailability, setUsernameAvailability] = useState("");
 
+  const navigate = useNavigate();
+
   const handleAuthModeSwitch = () => {
     setUsername("");
     setDisplayName("");
     setPassword("");
     setConfirmPassword("");
+    setValidationErrors([]);
     setUsernameAvailability("");
   };
 
@@ -95,7 +99,9 @@ function Authenticate({ authMode }: AuthenticateProps) {
       }
       setValidationErrors(errorMessages);
 
-      // CKYTODO Save token and bring user to home page
+      if (result.ok) {
+        navigate("/", { replace: true });
+      }
     }
   };
 
