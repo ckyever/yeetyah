@@ -11,12 +11,15 @@ interface AuthenticateProps {
   authMode: "Login" | "Signup";
 }
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 function Authenticate({ authMode }: AuthenticateProps) {
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [usernameAvailability, setUsernameAvailability] = useState("");
 
   const handleAuthModeSwitch = () => {
     setUsername("");
@@ -25,14 +28,35 @@ function Authenticate({ authMode }: AuthenticateProps) {
     setConfirmPassword("");
   };
 
+  const handleUsernameChange = async (inputUsername: string) => {
+    setUsername(inputUsername);
+
+    if (!inputUsername) {
+      setUsernameAvailability("");
+      return;
+    }
+
+    setUsernameAvailability("Checking...");
+    const url = `${SERVER_URL}/api/users/username/${inputUsername}`;
+    const result: api.UsernameResult = await api.apiFetch<api.UsernameResult>(
+      url
+    );
+    if (result.data.is_available) {
+      setUsernameAvailability("This username is available");
+    } else {
+      setUsernameAvailability("This username is NOT available");
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setValidationErrors([]);
+    setUsernameAvailability("");
 
     if (authMode === "Login") {
       console.log("Logging in");
     } else {
-      const url = `${import.meta.env.VITE_SERVER_URL}/api/users`;
+      const url = `${SERVER_URL}/api/users`;
       const result: api.AuthResult = await api.apiFetch<api.AuthResult>(url, {
         method: "POST",
         headers: {
@@ -66,13 +90,16 @@ function Authenticate({ authMode }: AuthenticateProps) {
         <h1>{authMode === "Login" ? "Yeetyah" : "Sign Up"}</h1>
         {validationErrors && <ValidationErrors errors={validationErrors} />}
         <div className={styles.field}>
-          <label htmlFor="username">Username</label>
+          <div className={styles["field-header"]}>
+            <label htmlFor="username">Username</label>
+            <span>{username && usernameAvailability}</span>
+          </div>
           <input
             type="text"
             id="username"
             name="username"
             value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            onChange={(event) => handleUsernameChange(event.target.value)}
           ></input>
         </div>
         {authMode === "Signup" && (

@@ -1,5 +1,15 @@
-export interface AuthResult {
+interface FetchResult {
   ok: boolean;
+}
+
+export interface UsernameResult extends FetchResult {
+  data: {
+    username: string;
+    is_available: true;
+  };
+}
+
+export interface AuthResult extends FetchResult {
   data: AuthData;
 }
 
@@ -18,7 +28,7 @@ export interface ValidatorError {
   location: string;
 }
 
-async function apiFetch<T>(url: string, init: RequestInit): Promise<T> {
+async function apiFetch<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init);
   return {
     ok: response.ok,
