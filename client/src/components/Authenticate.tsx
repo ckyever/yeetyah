@@ -71,6 +71,40 @@ function Authenticate({ authMode }: AuthenticateProps) {
     }
   };
 
+  const handleSignup = async () => {
+    setUsernameAvailability("");
+    const url = `${SERVER_URL}/api/users`;
+    const result: api.AuthResult = await api.apiFetch<api.AuthResult>(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password, display_name: displayName }),
+    });
+
+    const errorMessages: string[] = [];
+    if (!result.ok) {
+      errorMessages.push("Unable to create an account");
+    }
+
+    if (result.data.errors) {
+      errorMessages.push(
+        ...result.data.errors.map((error: api.ValidatorError) => error.msg)
+      );
+    }
+
+    if (result.data.token) {
+      localStorage.setItem(
+        constants.LOCAL_STORAGE_KEY_USER_TOKEN,
+        result.data.token
+      );
+      navigate("/", { replace: true });
+    } else {
+      errorMessages.push("Unable to sign in");
+    }
+    setValidationErrors(errorMessages);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setValidationErrors([]);
@@ -78,38 +112,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
     if (authMode === "Login") {
       console.log("Logging in");
     } else {
-      setUsernameAvailability("");
-      const url = `${SERVER_URL}/api/users`;
-      const result: api.AuthResult = await api.apiFetch<api.AuthResult>(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password, display_name: displayName }),
-      });
-
-      const errorMessages: string[] = [];
-      if (!result.ok) {
-        errorMessages.push("Unable to create an account");
-      }
-
-      if (result.data.errors) {
-        errorMessages.push(
-          ...result.data.errors.map((error: api.ValidatorError) => error.msg)
-        );
-      }
-
-      if (result.data.token) {
-        localStorage.setItem(
-          constants.LOCAL_STORAGE_KEY_USER_TOKEN,
-          result.data.token
-        );
-        navigate("/", { replace: true });
-      } else {
-        errorMessages.push("Unable to sign in");
-      }
-
-      setValidationErrors(errorMessages);
+      await handleSignup();
     }
   };
 
