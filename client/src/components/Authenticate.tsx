@@ -95,7 +95,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
         result.data.errors.map((error: api.ValidatorError) => error.msg)
       );
     } else {
-      if (result.data.token) {
+      if (result.data.token && result.data.user) {
         setUserToken(result.data.token);
         setUser(result.data.user);
         localStorage.setItem(
@@ -135,7 +135,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
       );
     }
 
-    if (result.data.token) {
+    if (result.data.token && result.data.user) {
       setUserToken(result.data.token);
       setUser(result.data.user);
       localStorage.setItem(

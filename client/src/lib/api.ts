@@ -20,7 +20,7 @@ interface AuthData {
   errors?: [ValidatorError];
 }
 
-interface User {
+export interface User {
   username: string;
   password: string;
   display_name?: string;
