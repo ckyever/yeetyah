@@ -1,10 +1,13 @@
 import cors from "cors";
 import express from "express";
+import expressWs from "express-ws";
 
-import usersRouter from "./routes/usersRouter";
 import authRouter from "./routes/authRouter";
+import chatRouter from "./routes/chatRouter";
+import usersRouter from "./routes/usersRouter";
 
-const app = express();
+const appBase = express();
+const { app } = expressWs(appBase);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,6 +20,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
+
+app.use("/api/chat", chatRouter);
 
 // Get chat list - GET /api/chats
 // View messages in chat - GET /api/chats/:chatId/messages
