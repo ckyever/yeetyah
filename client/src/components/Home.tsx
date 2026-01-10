@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router";
+import { Outlet, useOutletContext } from "react-router";
 
 import * as context from "../context";
 
@@ -12,6 +12,7 @@ function Home() {
         username={user && user.username}
         displayName={(user && user.display_name) ?? null}
       />
+      <Outlet />
     </>
   );
 }
