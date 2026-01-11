@@ -19,7 +19,7 @@ function UsersList({ setSelectedUser }: UsersListProps) {
 
   useEffect(() => {
     const getUsers = async () => {
-      const url = `${import.meta.env.VITE_SERVER_URL}/api/users/`;
+      const url = `${import.meta.env.VITE_SERVER_URL}/api/users`;
       const result: api.UsersListResult =
         await api.apiFetch<api.UsersListResult>(url);
       if (result) {
@@ -35,7 +35,7 @@ function UsersList({ setSelectedUser }: UsersListProps) {
 
   return (
     <div>
-      <h2>Users ({usersList.length - 1})</h2>
+      <h2>Users ({usersList.length})</h2>
       {usersList.length === 0 ? (
         <div>*Cricket noises* 🦗</div>
       ) : (
@@ -43,13 +43,11 @@ function UsersList({ setSelectedUser }: UsersListProps) {
           {usersList &&
             usersList.map((profile) => {
               // Only show user if it isn't the current one
-              if (user && user.id !== profile.id) {
-                return (
-                  <li key={profile.id} onClick={() => handleUserClick(profile)}>
-                    <UserTitle user={profile} />
-                  </li>
-                );
-              }
+              return (
+                <li key={profile.id} onClick={() => handleUserClick(profile)}>
+                  <UserTitle user={profile} />
+                </li>
+              );
             })}
         </ul>
       )}
