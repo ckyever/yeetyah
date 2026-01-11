@@ -25,7 +25,7 @@ model user {
 
 model chat {
   id Int @id @default(autoincrement())
-  name String
+  name String?
   recipients chat_user[]
   messages message[]
 }
