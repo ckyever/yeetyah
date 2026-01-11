@@ -3,10 +3,10 @@ import { Router } from "express";
 import * as usersController from "../controllers/usersController";
 
 const usersRouter = Router();
-usersRouter.get("/username/:username", usersController.isUsernameAvailable);
+usersRouter.get("/", usersController.getUserList);
 usersRouter.post("/", ...usersController.createUser);
+usersRouter.get("/username/:username", usersController.isUsernameAvailable);
 
-// Get users - GET /api/users
 // Get user profile - GET /api/users/:userId
 // Update profile - PUT /api/users/:userId
 

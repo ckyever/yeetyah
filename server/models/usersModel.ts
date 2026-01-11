@@ -35,4 +35,9 @@ const doesUsernameExist = async (username: string) => {
   return existingUser;
 };
 
-export { createUser, getUserByUsername, doesUsernameExist };
+const getAllUsers = async () => {
+  const users = await prisma.user.findMany();
+  return users;
+};
+
+export { createUser, getUserByUsername, doesUsernameExist, getAllUsers };

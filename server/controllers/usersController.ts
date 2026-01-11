@@ -111,4 +111,22 @@ const isUsernameAvailable = async (req: Request<UserParams>, res: Response) => {
   }
 };
 
-export { createUser, isUsernameAvailable };
+const getUserList = async (req: Request, res: Response) => {
+  try {
+    const users = await usersModel.getAllUsers();
+    const usersList = users.map((user) => {
+      return {
+        id: user.id,
+        username: user.username,
+        display_name: user.display_name,
+      };
+    });
+    return res.json({ users: usersList });
+  } catch {
+    return res
+      .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: "Failed to get user list" });
+  }
+};
+
+export { createUser, isUsernameAvailable, getUserList };
