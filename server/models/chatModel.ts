@@ -16,4 +16,19 @@ const createChat = async (
   return chat;
 };
 
-export { createChat };
+const getChatFromUserIds = async (userIds: number[]) => {
+  const chat = prisma.chat.findMany({
+    where: {
+      AND: userIds.map((id) => ({
+        recipients: {
+          some: {
+            user_id: id,
+          },
+        },
+      })),
+    },
+  });
+  return chat;
+};
+
+export { createChat, getChatFromUserIds };

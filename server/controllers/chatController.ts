@@ -73,4 +73,33 @@ const createNewChat = [
   },
 ];
 
-export { chatResponse, createNewChat };
+const validateUserIds = [
+  validator
+    .query("user_ids")
+    .customSanitizer((value) => value.split(",").map(Number)),
+];
+
+const findChatFromUserIds = [
+  validateUserIds,
+  async (req: Request, res: Response) => {
+    const { user_ids } = validator.matchedData(req);
+
+    if (user_ids.length < 2) {
+      return res
+        .status(httpConstants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: "At least two User IDs are required to find a chat" });
+    }
+
+    try {
+      const chat = await chatModel.getChatFromUserIds(user_ids);
+      return res.json({ chat });
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+        .json({ message: "Unable to search for chat" });
+    }
+  },
+];
+
+export { chatResponse, createNewChat, findChatFromUserIds };
