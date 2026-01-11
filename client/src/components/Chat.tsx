@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import * as api from "../lib/api";
 
 import UserTitle from "./UserTitle";
@@ -9,6 +11,8 @@ interface ChatProps {
 }
 
 function Chat({ selectedUser }: ChatProps) {
+  const [message, setMessage] = useState("");
+
   return (
     <form className={styles["chat-window"]}>
       <div>
@@ -16,8 +20,13 @@ function Chat({ selectedUser }: ChatProps) {
         {selectedUser && <UserTitle user={selectedUser} />}
       </div>
       <div>Messages go here</div>
-      <textarea></textarea>
-      <button type="submit">Send</button>
+      <textarea
+        value={message}
+        onChange={(event) => setMessage(event.target.value)}
+      ></textarea>
+      <button type="submit" disabled={selectedUser && message ? false : true}>
+        Send
+      </button>
     </form>
   );
 }
