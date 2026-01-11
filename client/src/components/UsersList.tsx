@@ -6,7 +6,13 @@ import * as context from "../context";
 
 import UserTitle from "./UserTitle";
 
-function UsersList() {
+interface UsersListProps {
+  setSelectedUser: React.Dispatch<
+    React.SetStateAction<api.UsersListItem | null>
+  >;
+}
+
+function UsersList({ setSelectedUser }: UsersListProps) {
   const [usersList, setUsersList] = useState<api.UsersListItem[]>([]);
 
   const { user } = useOutletContext<context.OutletContext>();
@@ -23,6 +29,10 @@ function UsersList() {
     getUsers();
   }, []);
 
+  const handleUserClick = (user: api.UsersListItem) => {
+    setSelectedUser(user);
+  };
+
   return (
     <div>
       <h2>Users ({usersList.length - 1})</h2>
@@ -35,7 +45,7 @@ function UsersList() {
               // Only show user if it isn't the current one
               if (user && user.id !== profile.id) {
                 return (
-                  <li>
+                  <li key={profile.id} onClick={() => handleUserClick(profile)}>
                     <UserTitle user={profile} />
                   </li>
                 );
