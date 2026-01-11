@@ -20,4 +20,19 @@ model user {
   display_name String?
   profile_image String?
   is_logged_in Boolean @default(false)
+  chats chat_user[]
+}
+
+model chat {
+  id Int @id @default(autoincrement())
+  name String
+  recipients chat_user[]
+}
+
+model chat_user {
+  id Int @id @default(autoincrement())
+  chat chat @relation(fields: [chat_id], references: [id])
+  chat_id Int
+  user user @relation(fields: [user_id], references: [id])
+  user_id Int
 }
