@@ -4,6 +4,8 @@ import { useOutletContext } from "react-router";
 import * as api from "../lib/api";
 import * as context from "../context";
 
+import UserTitle from "./UserTitle";
+
 function UsersList() {
   const [usersList, setUsersList] = useState<api.UsersListItem[]>([]);
 
@@ -32,13 +34,11 @@ function UsersList() {
             usersList.map((profile) => {
               // Only show user if it isn't the current one
               if (user && user.id !== profile.id) {
-                let profileTitle;
-                if (profile.display_name) {
-                  profileTitle = `${profile.display_name} (${profile.username})`;
-                } else {
-                  profileTitle = profile.username;
-                }
-                return <li>{profileTitle}</li>;
+                return (
+                  <li>
+                    <UserTitle user={profile} />
+                  </li>
+                );
               }
             })}
         </ul>
