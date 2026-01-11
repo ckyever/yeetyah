@@ -2,6 +2,18 @@ interface FetchResult {
   ok: boolean;
 }
 
+export interface UsersListResult extends FetchResult {
+  data: {
+    users: UsersListItem[];
+  };
+}
+
+export interface UsersListItem {
+  id: number;
+  username: string;
+  display_name: string;
+}
+
 export interface UsernameResult extends FetchResult {
   data: {
     username: string;
