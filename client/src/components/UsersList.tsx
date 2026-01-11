@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
-import * as context from "../context";
 
 import UserTitle from "./UserTitle";
 
@@ -14,8 +12,6 @@ interface UsersListProps {
 
 function UsersList({ setSelectedUser }: UsersListProps) {
   const [usersList, setUsersList] = useState<api.UsersListItem[]>([]);
-
-  const { user } = useOutletContext<context.OutletContext>();
 
   useEffect(() => {
     const getUsers = async () => {
