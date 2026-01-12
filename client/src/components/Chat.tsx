@@ -44,13 +44,29 @@ function Chat({ selectedUser }: ChatProps) {
     }
   }, [currentUser, selectedUser]);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     if (chatId) {
       console.log("Send message to chat ID");
     } else {
-      console.log("Create new chat with message");
+      const url = `${import.meta.env.VITE_SERVER_URL}/api/chat/`;
+      const result: api.ChatResult = await api.apiFetch<api.ChatResult>(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: chatName,
+          from_user_id: currentUser!.id,
+          to_user_id: selectedUser!.id,
+          message,
+        }),
+      });
+
+      if (!result.ok) {
+        console.error("Unable to create chat");
+      }
     }
   };
 
