@@ -39,7 +39,7 @@ function Chat({ selectedUser }: ChatProps) {
       }
     };
 
-    if (currentUser && selectedUser) {
+    if (currentUser?.id && selectedUser?.id) {
       getChatId(currentUser.id, selectedUser.id);
     }
   }, [currentUser, selectedUser]);
