@@ -5,6 +5,11 @@ const getMessagesByChatId = async (chatId: number) => {
     where: {
       chat_id: chatId,
     },
+    include: {
+      author: {
+        include: { user: true },
+      },
+    },
   });
   return messages;
 };

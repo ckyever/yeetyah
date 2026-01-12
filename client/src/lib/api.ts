@@ -2,6 +2,28 @@ interface FetchResult {
   ok: boolean;
 }
 
+export interface MessagesResult extends FetchResult {
+  data: {
+    messages: Message[];
+  };
+}
+
+export interface Message {
+  id: number;
+  chat_id: number;
+  text: string;
+  timestamp: string;
+  author_id: number;
+  author: Author;
+}
+
+export interface Author {
+  id: number;
+  chat_id: number;
+  user_id: number;
+  user: User;
+}
+
 export interface UsersListResult extends FetchResult {
   data: {
     users: UsersListItem[];

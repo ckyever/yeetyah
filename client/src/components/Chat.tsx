@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router";
 import * as api from "../lib/api";
 import * as context from "../context";
 
+import Messages from "./Messages";
 import UserTitle from "./UserTitle";
 
 import styles from "../styles/Chat.module.css";
@@ -50,7 +51,7 @@ function Chat({ selectedUser }: ChatProps) {
         <span>To: </span>
         {selectedUser && <UserTitle user={selectedUser} />}
       </div>
-      <div>Messages go here</div>
+      <Messages chatId={chatId} />
       <textarea
         value={message}
         onChange={(event) => setMessage(event.target.value)}
