@@ -36,6 +36,7 @@ model chat_user {
   chat_id Int
   user user @relation(fields: [user_id], references: [id])
   user_id Int
+  messages message[]
 }
 
 model message {
@@ -44,4 +45,6 @@ model message {
   chat_id Int
   text String
   timestamp DateTime @default(now())
+  author chat_user @relation(fields: [author_id], references: [id])
+  author_id Int
 }
