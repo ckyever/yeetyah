@@ -37,6 +37,8 @@ model chat_user {
   user user @relation(fields: [user_id], references: [id])
   user_id Int
   messages message[]
+
+  @@unique([chat_id, user_id])
 }
 
 model message {
