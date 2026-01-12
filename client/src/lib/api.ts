@@ -2,6 +2,12 @@ interface FetchResult {
   ok: boolean;
 }
 
+export interface MessageResult extends FetchResult {
+  data: {
+    messages: Message;
+  };
+}
+
 export interface MessagesResult extends FetchResult {
   data: {
     messages: Message[];

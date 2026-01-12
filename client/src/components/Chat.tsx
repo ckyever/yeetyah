@@ -48,7 +48,27 @@ function Chat({ selectedUser }: ChatProps) {
     event.preventDefault();
 
     if (chatId) {
-      console.log("Send message to chat ID");
+      const url = `${
+        import.meta.env.VITE_SERVER_URL
+      }/api/chat/${chatId}/messages`;
+      const result: api.MessageResult = await api.apiFetch<api.MessageResult>(
+        url,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            user_id: currentUser!.id,
+            message,
+          }),
+        }
+      );
+
+      if (!result.ok) {
+        console.error("Unable to create chat message");
+      }
     } else {
       const url = `${import.meta.env.VITE_SERVER_URL}/api/chat/`;
       const result: api.ChatResult = await api.apiFetch<api.ChatResult>(url, {
