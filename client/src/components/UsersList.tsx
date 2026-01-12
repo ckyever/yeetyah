@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
+import * as context from "../context";
 
 import UserTitle from "./UserTitle";
 
@@ -13,13 +15,17 @@ interface UsersListProps {
 function UsersList({ setSelectedUser }: UsersListProps) {
   const [usersList, setUsersList] = useState<api.UsersListItem[]>([]);
 
+  const { currentUser } = useOutletContext<context.OutletContext>();
+
   useEffect(() => {
     const getUsers = async () => {
       const url = `${import.meta.env.VITE_SERVER_URL}/api/users`;
       const result: api.UsersListResult =
         await api.apiFetch<api.UsersListResult>(url);
       if (result) {
-        setUsersList(result.data.users);
+        setUsersList(
+          result.data.users.filter((user) => user.id !== currentUser!.id)
+        );
       }
     };
     getUsers();
