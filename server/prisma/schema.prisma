@@ -32,7 +32,7 @@ model chat {
 
 model chat_user {
   id Int @id @default(autoincrement())
-  chat chat @relation(fields: [chat_id], references: [id])
+  chat chat @relation(fields: [chat_id], references: [id], onDelete: Cascade)
   chat_id Int
   user user @relation(fields: [user_id], references: [id])
   user_id Int
@@ -41,7 +41,7 @@ model chat_user {
 
 model message {
   id Int @id @default(autoincrement())
-  chat chat @relation(fields: [chat_id], references: [id])
+  chat chat @relation(fields: [chat_id], references: [id], onDelete: Cascade)
   chat_id Int
   text String
   timestamp DateTime @default(now())
