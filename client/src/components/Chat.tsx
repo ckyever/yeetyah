@@ -66,7 +66,9 @@ function Chat({ selectedUser }: ChatProps) {
         }
       );
 
-      if (!result.ok) {
+      if (result.ok) {
+        setMessage("");
+      } else {
         console.error("Unable to create chat message");
       }
     } else {
