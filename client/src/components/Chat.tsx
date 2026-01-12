@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
+import * as context from "../context";
 
 import UserTitle from "./UserTitle";
 
@@ -11,10 +13,39 @@ interface ChatProps {
 }
 
 function Chat({ selectedUser }: ChatProps) {
+  const [chatId, setChatId] = useState<number | null>(null);
+  const [chatName, setChatName] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+
+  const { currentUser } = useOutletContext<context.OutletContext>();
+
+  useEffect(() => {
+    const getChatId = async (currentUserId: number, selectedUserId: number) => {
+      const url = `${
+        import.meta.env.VITE_SERVER_URL
+      }/api/chat/?user_ids=${currentUserId},${selectedUserId}`;
+      const result: api.ChatResult = await api.apiFetch<api.ChatResult>(url);
+      if (result.data.chat) {
+        setChatId(result.data.chat.id);
+        if (result.data.chat.name) {
+          setChatName(result.data.chat.name);
+        } else {
+          setChatName(`Chat with ${selectedUser?.username}`);
+        }
+      } else {
+        setChatId(null);
+        setChatName(null);
+      }
+    };
+
+    if (currentUser && selectedUser) {
+      getChatId(currentUser.id, selectedUser.id);
+    }
+  }, [currentUser, selectedUser]);
 
   return (
     <form className={styles["chat-window"]}>
+      {chatName && <h3>{chatName}</h3>}
       <div>
         <span>To: </span>
         {selectedUser && <UserTitle user={selectedUser} />}

@@ -8,6 +8,15 @@ export interface UsersListResult extends FetchResult {
   };
 }
 
+export interface ChatResult extends FetchResult {
+  data: {
+    chat: {
+      name: string | null;
+      id: number;
+    };
+  };
+}
+
 export interface UsersListItem {
   id: number;
   username: string;
