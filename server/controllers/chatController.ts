@@ -4,6 +4,7 @@ import { constants as httpConstants } from "http2";
 import { type WebsocketRequestHandler } from "express-ws";
 
 import * as chatModel from "../models/chatModel";
+import * as messageModel from "../models/messageModel";
 
 const chatResponse: WebsocketRequestHandler = async (ws, req) => {
   ws.on("message", (message: string) => {
@@ -102,4 +103,19 @@ const findChatFromUserIds = [
   },
 ];
 
-export { chatResponse, createNewChat, findChatFromUserIds };
+const getChatMessages = async (req: Request, res: Response) => {
+  const { chatId: rawChatId } = req.params;
+  const chatId = Number(rawChatId);
+
+  try {
+    const messages = await messageModel.getMessagesByChatId(chatId);
+    return res.json({ messages });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: "Unable to get messages for chat" });
+  }
+};
+
+export { chatResponse, createNewChat, findChatFromUserIds, getChatMessages };
