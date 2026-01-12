@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
@@ -17,6 +17,8 @@ function Chat({ selectedUser }: ChatProps) {
   const [chatId, setChatId] = useState<number | null>(null);
   const [chatName, setChatName] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const { currentUser } = useOutletContext<context.OutletContext>();
 
@@ -43,6 +45,14 @@ function Chat({ selectedUser }: ChatProps) {
       getChatId(currentUser.id, selectedUser.id);
     }
   }, [currentUser, selectedUser]);
+
+  // Submit form when pressing Enter key without Shift instead of new line
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      formRef.current?.requestSubmit();
+    }
+  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -96,6 +106,7 @@ function Chat({ selectedUser }: ChatProps) {
     <form
       className={styles["chat-window"]}
       onSubmit={(event) => handleSubmit(event)}
+      ref={formRef}
     >
       {chatName && <h3>{chatName}</h3>}
       <div>
@@ -106,6 +117,7 @@ function Chat({ selectedUser }: ChatProps) {
       <textarea
         value={message}
         onChange={(event) => setMessage(event.target.value)}
+        onKeyDown={handleKeyDown}
       ></textarea>
       <button type="submit" disabled={selectedUser && message ? false : true}>
         Send
