@@ -25,7 +25,8 @@ function Authenticate({ authMode }: AuthenticateProps) {
   const [usernameAvailability, setUsernameAvailability] = useState("");
 
   const navigate = useNavigate();
-  const { setUserToken, setUser } = useOutletContext<context.OutletContext>();
+  const { setUserToken, setCurrentUser } =
+    useOutletContext<context.OutletContext>();
 
   const isLogin = authMode === "Login";
 
@@ -97,7 +98,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
     } else {
       if (result.data.token && result.data.user) {
         setUserToken(result.data.token);
-        setUser(result.data.user);
+        setCurrentUser(result.data.user);
         localStorage.setItem(
           constants.LOCAL_STORAGE_KEY_USER_TOKEN,
           result.data.token
@@ -137,7 +138,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
 
     if (result.data.token && result.data.user) {
       setUserToken(result.data.token);
-      setUser(result.data.user);
+      setCurrentUser(result.data.user);
       localStorage.setItem(
         constants.LOCAL_STORAGE_KEY_USER_TOKEN,
         result.data.token

@@ -9,7 +9,7 @@ function App() {
   const [userToken, setUserToken] = useState(
     localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER_TOKEN)
   );
-  const [user, setUser] = useState<api.User>(
+  const [currentUser, setCurrentUser] = useState<api.User>(
     localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER)
       ? JSON.parse(localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER)!)
       : null
@@ -22,8 +22,8 @@ function App() {
           {
             userToken,
             setUserToken,
-            user,
-            setUser,
+            currentUser,
+            setCurrentUser,
           } satisfies context.OutletContext
         }
       />

@@ -6,11 +6,12 @@ import * as context from "../context";
 
 function Logout() {
   const navigate = useNavigate();
-  const { setUserToken, setUser } = useOutletContext<context.OutletContext>();
+  const { setUserToken, setCurrentUser } =
+    useOutletContext<context.OutletContext>();
 
   const handleLogout = () => {
     setUserToken("");
-    setUser({} as api.User);
+    setCurrentUser({} as api.User);
     localStorage.removeItem(constants.LOCAL_STORAGE_KEY_USER_TOKEN);
     localStorage.removeItem(constants.LOCAL_STORAGE_KEY_USER);
     navigate("/login", { replace: true });

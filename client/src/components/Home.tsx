@@ -12,12 +12,12 @@ function Home() {
   const [selectedUser, setSelectedUser] = useState<api.UsersListItem | null>(
     null
   );
-  const { user } = useOutletContext<context.OutletContext>();
+  const { currentUser } = useOutletContext<context.OutletContext>();
   return (
     <>
       <Profile
-        username={user && user.username}
-        displayName={(user && user.display_name) ?? null}
+        username={currentUser && currentUser.username}
+        displayName={(currentUser && currentUser.display_name) ?? null}
       />
       <UsersList setSelectedUser={setSelectedUser} />
       <Chat selectedUser={selectedUser} />
