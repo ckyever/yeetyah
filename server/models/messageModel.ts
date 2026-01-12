@@ -14,4 +14,15 @@ const getMessagesByChatId = async (chatId: number) => {
   return messages;
 };
 
-export { getMessagesByChatId };
+const createMessage = async (chatId: number, userId: number, text: string) => {
+  const message = prisma.message.create({
+    data: {
+      chat_id: chatId,
+      author_id: userId,
+      text: text,
+    },
+  });
+  return message;
+};
+
+export { getMessagesByChatId, createMessage };

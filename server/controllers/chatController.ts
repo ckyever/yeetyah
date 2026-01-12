@@ -56,12 +56,33 @@ const createNewChat = [
     } = validator.matchedData(req);
 
     try {
-      const chat = await chatModel.createChat(
-        name,
-        fromUserId,
-        toUserId,
+      console.log("About to create a chat");
+      const chat = await chatModel.createChat(name, fromUserId, toUserId);
+      console.log("Created a chat");
+      console.table(chat);
+
+      if (!chat) {
+        return res
+          .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+          .json({
+            message: "Failed to create a new chat",
+          });
+      }
+
+      const newMessage = await messageModel.createMessage(
+        chat.id,
+        chat.recipients[0]!.id,
         message
       );
+
+      if (!newMessage) {
+        return res
+          .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+          .json({
+            message: "Failed to create first message for chat",
+          });
+      }
+
       return res.status(httpConstants.HTTP_STATUS_CREATED).json({
         chat: chat,
       });
