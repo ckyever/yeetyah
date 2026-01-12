@@ -56,10 +56,7 @@ const createNewChat = [
     } = validator.matchedData(req);
 
     try {
-      console.log("About to create a chat");
       const chat = await chatModel.createChat(name, fromUserId, toUserId);
-      console.log("Created a chat");
-      console.table(chat);
 
       if (!chat) {
         return res
