@@ -17,15 +17,20 @@ const createChat = async (
 };
 
 const getChatFromUserIds = async (userIds: number[]) => {
-  const chat = prisma.chat.findMany({
+  const chat = prisma.chat.findFirst({
     where: {
-      AND: userIds.map((id) => ({
-        recipients: {
-          some: {
-            user_id: id,
+      AND: [
+        // Chat contains every user from the array
+        ...userIds.map((id) => ({
+          recipients: {
+            some: {
+              user_id: id,
+            },
           },
-        },
-      })),
+        })),
+        // Ensure the chat does not contain any other users
+        { recipients: { every: { user_id: { in: userIds } } } },
+      ],
     },
   });
   return chat;
