@@ -9,5 +9,6 @@ chatRouter.ws("/", chatController.chatResponse);
 chatRouter.post("/", ...chatController.createNewChat);
 chatRouter.get("/", ...chatController.findChatFromUserIds);
 chatRouter.get("/:chatId/messages", chatController.getChatMessages);
+chatRouter.post("/:chatId/messages", ...chatController.createNewChatMessage);
 
 export default chatRouter;

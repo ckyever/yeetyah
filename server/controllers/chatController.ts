@@ -4,6 +4,7 @@ import { constants as httpConstants } from "http2";
 import { type WebsocketRequestHandler } from "express-ws";
 
 import * as chatModel from "../models/chatModel";
+import * as chatUserModel from "../models/chatUserModel";
 import * as messageModel from "../models/messageModel";
 
 const chatResponse: WebsocketRequestHandler = async (ws, req) => {
@@ -136,4 +137,79 @@ const getChatMessages = async (req: Request, res: Response) => {
   }
 };
 
-export { chatResponse, createNewChat, findChatFromUserIds, getChatMessages };
+const validateChatMessage = [
+  validator
+    .body("chat_id")
+    .notEmpty()
+    .withMessage("Must include chat ID")
+    .isInt()
+    .withMessage("Chat ID must be an integer")
+    .toInt(),
+  validator
+    .body("user_id")
+    .notEmpty()
+    .withMessage("Must include user ID")
+    .isInt()
+    .withMessage("User ID must be an integer")
+    .toInt(),
+  validator
+    .body("message")
+    .trim()
+    .notEmpty()
+    .withMessage("Must include a message"),
+];
+
+const createNewChatMessage = [
+  validateChatMessage,
+  async (req: Request, res: Response) => {
+    const errors = validator.validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(httpConstants.HTTP_STATUS_BAD_REQUEST).json({
+        message: "Invalid create new chat message body",
+        errors: errors.array(),
+      });
+    }
+
+    const {
+      chat_id: chatId,
+      user_id: userId,
+      message,
+    } = validator.matchedData(req);
+
+    const chatUserId = await chatUserModel.getChatUserIdFromUserId(
+      chatId,
+      userId
+    );
+
+    if (!chatUserId) {
+      return res.status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json({
+        message: "Unable to locate user in chat",
+      });
+    }
+
+    try {
+      const newMessage = await messageModel.createMessage(
+        chatId,
+        chatUserId,
+        message
+      );
+      return res.status(httpConstants.HTTP_STATUS_CREATED).json({
+        message: newMessage,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json({
+        message: "Failed to create a new chat message",
+      });
+    }
+  },
+];
+
+export {
+  chatResponse,
+  createNewChat,
+  findChatFromUserIds,
+  getChatMessages,
+  createNewChatMessage,
+};
