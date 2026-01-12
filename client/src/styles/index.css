@@ -77,3 +77,8 @@ h6 {
 }
 
 /* End of CSS Reset */
+
+body {
+  background-color: #2d353b;
+  color: white;
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
@@ -44,8 +44,21 @@ function Chat({ selectedUser }: ChatProps) {
     }
   }, [currentUser, selectedUser]);
 
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (chatId) {
+      console.log("Send message to chat ID");
+    } else {
+      console.log("Create new chat with message");
+    }
+  };
+
   return (
-    <form className={styles["chat-window"]}>
+    <form
+      className={styles["chat-window"]}
+      onSubmit={(event) => handleSubmit(event)}
+    >
       {chatName && <h3>{chatName}</h3>}
       <div>
         <span>To: </span>

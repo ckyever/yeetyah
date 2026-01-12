@@ -62,7 +62,7 @@ const createNewChat = [
         toUserId,
         message
       );
-      return res.json({
+      return res.status(httpConstants.HTTP_STATUS_CREATED).json({
         chat: chat,
       });
     } catch (error) {
