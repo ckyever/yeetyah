@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import { raw, type Request, type Response } from "express";
 import { constants as httpConstants } from "http2";
 import * as validator from "express-validator";
 import { type WebsocketRequestHandler } from "express-ws";
@@ -8,28 +8,73 @@ import * as chatModel from "../models/chatModel";
 import * as chatUserModel from "../models/chatUserModel";
 import * as messageModel from "../models/messageModel";
 
-const activeUsers = new Map<number, WebSocket>();
+const connections = new Map<number, Map<number, WebSocket>>();
+
+interface ChatData {
+  chat_id: number;
+  message: Message;
+}
+
+interface Message {
+  id: number;
+  chat_id: number;
+  text: string;
+  timestamp: string;
+  author_id: number;
+  author: Author;
+}
+
+interface Author {
+  id: number | undefined;
+  chat_id: number;
+  user_id: number;
+  user: User;
+}
+
+interface User {
+  username: string;
+  password: string;
+  display_name?: string;
+  profile_image?: string;
+  is_logged_in: boolean;
+  id: number;
+}
 
 const newConnection: WebsocketRequestHandler = async (ws, req, next) => {
-  const { userId } = req.query;
-  activeUsers.set(Number(userId), ws);
+  const { chatId, userId } = req.params;
+  const chatIdNumber = Number(chatId);
+  const userIdNumber = Number(userId);
+
+  if (connections.has(chatIdNumber)) {
+    const websocketList = connections.get(chatIdNumber);
+    if (websocketList) {
+      websocketList.set(userIdNumber, ws);
+    }
+  } else {
+    connections.set(
+      chatIdNumber,
+      new Map<number, WebSocket>([[userIdNumber, ws]])
+    );
+  }
   next();
 };
 
 const chatResponse: WebsocketRequestHandler = async (ws, req) => {
-  console.log("Connected User IDs:");
-  activeUsers.forEach((ws, userId) => {
-    console.log(userId);
-  });
-
   ws.on("message", (message: string) => {
     // If chat ID does not exist
     // Create chat
     // Create message
     // Send message
     // Chat ID does exist
-    console.log("Received: " + message);
-    ws.send("pong");
+    const data: ChatData = JSON.parse(message);
+
+    const recipients = connections.get(data.chat_id);
+    recipients?.forEach((ws, userId) => {
+      // Ensure we don't send the message back to the same user
+      if (data.message.author.user_id !== userId) {
+        ws.send(JSON.stringify(data.message));
+      }
+    });
   });
 };
 

@@ -7,7 +7,11 @@ const router = Router();
 const chatRouter = expressWs(router as any).app;
 
 // Websocket routes
-chatRouter.ws("/", chatController.newConnection, chatController.chatResponse);
+chatRouter.ws(
+  "/:chatId/user/:userId",
+  chatController.newConnection,
+  chatController.chatResponse
+);
 
 // HTTP routes
 chatRouter.post("/", ...chatController.createNewChat);
