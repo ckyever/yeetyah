@@ -144,7 +144,10 @@ function Chat({ selectedUser }: ChatProps) {
         }),
       });
 
-      if (!result.ok) {
+      if (result.ok) {
+        setChatId(result.data.chat.id);
+        setMessage("");
+      } else {
         console.error("Unable to create chat");
       }
     }

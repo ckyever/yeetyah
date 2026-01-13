@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
