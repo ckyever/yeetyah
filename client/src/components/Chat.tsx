@@ -109,7 +109,7 @@ function Chat({ selectedUser }: ChatProps) {
       ref={formRef}
     >
       {chatName && <h3>{chatName}</h3>}
-      <div>
+      <div className={styles.recipients}>
         <span>To: </span>
         {selectedUser && <UserTitle user={selectedUser} />}
       </div>
