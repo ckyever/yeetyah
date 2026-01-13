@@ -1,14 +1,33 @@
 import type { Request, Response } from "express";
-import * as validator from "express-validator";
 import { constants as httpConstants } from "http2";
+import * as validator from "express-validator";
 import { type WebsocketRequestHandler } from "express-ws";
+import { type WebSocket } from "ws";
 
 import * as chatModel from "../models/chatModel";
 import * as chatUserModel from "../models/chatUserModel";
 import * as messageModel from "../models/messageModel";
 
+const activeUsers = new Map<number, WebSocket>();
+
+const newConnection: WebsocketRequestHandler = async (ws, req, next) => {
+  const { userId } = req.query;
+  activeUsers.set(Number(userId), ws);
+  next();
+};
+
 const chatResponse: WebsocketRequestHandler = async (ws, req) => {
+  console.log("Connected User IDs:");
+  activeUsers.forEach((ws, userId) => {
+    console.log(userId);
+  });
+
   ws.on("message", (message: string) => {
+    // If chat ID does not exist
+    // Create chat
+    // Create message
+    // Send message
+    // Chat ID does exist
     console.log("Received: " + message);
     ws.send("pong");
   });
@@ -207,6 +226,7 @@ const createNewChatMessage = [
 ];
 
 export {
+  newConnection,
   chatResponse,
   createNewChat,
   findChatFromUserIds,
