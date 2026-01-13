@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
@@ -10,11 +10,11 @@ import styles from "../styles/Messages.module.css";
 
 interface MessagesProps {
   chatId: number | null;
+  messages: api.Message[];
+  setMessages: React.Dispatch<React.SetStateAction<api.Message[]>>;
 }
 
-function Messages({ chatId }: MessagesProps) {
-  const [messages, setMessages] = useState<api.Message[]>([]);
-
+function Messages({ chatId, messages, setMessages }: MessagesProps) {
   const { currentUser } = useOutletContext<context.OutletContext>();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function Messages({ chatId }: MessagesProps) {
     } else {
       clearMessages();
     }
-  }, [chatId]);
+  }, [chatId, setMessages]);
 
   return (
     <ul className={styles["message-list"]}>
