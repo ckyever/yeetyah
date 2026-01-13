@@ -20,7 +20,9 @@ function Home() {
         displayName={(currentUser && currentUser.display_name) ?? null}
       />
       <UsersList setSelectedUser={setSelectedUser} />
-      <Chat selectedUser={selectedUser} />
+      {selectedUser && (
+        <Chat selectedUser={selectedUser} key={selectedUser.id} />
+      )}
     </>
   );
 }
