@@ -24,7 +24,7 @@ export interface Message {
 }
 
 export interface Author {
-  id: number;
+  id: number | undefined;
   chat_id: number;
   user_id: number;
   user: User;

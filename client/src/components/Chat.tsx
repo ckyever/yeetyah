@@ -25,7 +25,9 @@ function Chat({ selectedUser }: ChatProps) {
   const { currentUser } = useOutletContext<context.OutletContext>();
 
   useEffect(() => {
-    const url = `${import.meta.env.VITE_WEBSOCKET_URI}/api/chat`;
+    const url = `${import.meta.env.VITE_WEBSOCKET_URI}/api/chat/?userId=${
+      currentUser!.id
+    }`;
     websocketRef.current = new WebSocket(url);
 
     websocketRef.current.onopen = () => {
@@ -43,7 +45,7 @@ function Chat({ selectedUser }: ChatProps) {
     websocketRef.current.onerror = (event: Event) => {
       console.error(`Error: ${event}`);
     };
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     const getChatId = async (currentUserId: number, selectedUserId: number) => {
