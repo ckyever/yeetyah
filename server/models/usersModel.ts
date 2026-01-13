@@ -40,4 +40,27 @@ const getAllUsers = async () => {
   return users;
 };
 
-export { createUser, getUserByUsername, doesUsernameExist, getAllUsers };
+const updateUser = async (
+  id: number,
+  displayName: string,
+  profileImage: string
+) => {
+  const user = await prisma.user.update({
+    data: {
+      display_name: displayName,
+      profile_image: profileImage,
+    },
+    where: {
+      id: id,
+    },
+  });
+  return user;
+};
+
+export {
+  createUser,
+  getUserByUsername,
+  doesUsernameExist,
+  getAllUsers,
+  updateUser,
+};

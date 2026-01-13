@@ -129,4 +129,40 @@ const getUserList = async (req: Request, res: Response) => {
   }
 };
 
-export { createUser, isUsernameAvailable, getUserList };
+const validateUserUpdate = [
+  validator.body("display_name").trim(),
+  validator.body("profile_image").trim(),
+];
+
+const updateUser = [
+  validateUserUpdate,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validator.validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(httpConstants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: "Invalid update user body", errors: errors.array() });
+    }
+
+    const { display_name: displayName, profile_image: profileImage } =
+      validator.matchedData(req);
+
+    const { userId } = req.params;
+
+    const updatedUser = await usersModel.updateUser(
+      Number(userId),
+      displayName,
+      profileImage
+    );
+
+    if (!updateUser) {
+      return res
+        .status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+        .json({ message: "Failed to update the user" });
+    }
+
+    return res.json({ user: updatedUser });
+  },
+];
+
+export { createUser, isUsernameAvailable, getUserList, updateUser };
