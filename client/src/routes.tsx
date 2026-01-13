@@ -2,6 +2,7 @@ import { redirect } from "react-router";
 
 import App from "./App";
 import Authenticate from "./components/Authenticate";
+import EditProfile from "./components/EditProfile";
 import Error from "./components/Error";
 import Home from "./components/Home";
 
@@ -36,6 +37,15 @@ const routes = [
         loader: async () => {
           if (localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER_TOKEN)) {
             return redirect("/");
+          }
+        },
+      },
+      {
+        path: "profile",
+        element: <EditProfile />,
+        loader: async () => {
+          if (!localStorage.getItem(constants.LOCAL_STORAGE_KEY_USER_TOKEN)) {
+            return redirect("/login");
           }
         },
       },
