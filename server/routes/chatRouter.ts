@@ -10,7 +10,7 @@ const chatRouter = expressWs(router as any).app;
 chatRouter.ws(
   "/:chatId/user/:userId",
   chatController.newConnection,
-  chatController.chatResponse
+  chatController.messageListener
 );
 
 // HTTP routes

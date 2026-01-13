@@ -59,7 +59,7 @@ const newConnection: WebsocketRequestHandler = async (ws, req, next) => {
   next();
 };
 
-const chatResponse: WebsocketRequestHandler = async (ws, req) => {
+const messageListener: WebsocketRequestHandler = async (ws, req) => {
   ws.on("message", (message: string) => {
     // If chat ID does not exist
     // Create chat
@@ -272,7 +272,7 @@ const createNewChatMessage = [
 
 export {
   newConnection,
-  chatResponse,
+  messageListener,
   createNewChat,
   findChatFromUserIds,
   getChatMessages,
