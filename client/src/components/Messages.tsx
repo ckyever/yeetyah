@@ -43,7 +43,7 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
   return (
     <ul className={styles["message-list"]}>
       {messages &&
-        messages.map((message) => {
+        messages.map((message, index) => {
           const titleInfo = {
             id: message.author.user.id,
             username: message.author.user.username,
@@ -53,8 +53,9 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
           if (titleInfo.id === currentUser!.id) {
             classNameList += ` ${styles["current-user"]}`;
           }
+          // Currently have to use index as key because new messages will not have an ID (CKYTODO: Need to fix)
           return (
-            <li key={message.id} className={classNameList}>
+            <li key={index} className={classNameList}>
               <UserTitle user={titleInfo} />
               <div>{message.text}</div>
             </li>

@@ -15,7 +15,7 @@ export interface MessagesResult extends FetchResult {
 }
 
 export interface Message {
-  id: number;
+  id: number | undefined;
   chat_id: number;
   text: string;
   timestamp: string;

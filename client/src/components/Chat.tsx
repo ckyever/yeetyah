@@ -25,9 +25,10 @@ function Chat({ selectedUser }: ChatProps) {
   const { currentUser } = useOutletContext<context.OutletContext>();
 
   useEffect(() => {
-    const url = `${import.meta.env.VITE_WEBSOCKET_URI}/api/chat/?userId=${
-      currentUser!.id
-    }`;
+    if (!chatId) return;
+    const url = `${
+      import.meta.env.VITE_WEBSOCKET_URI
+    }/api/chat/${chatId}/user/${currentUser!.id}`;
     websocketRef.current = new WebSocket(url);
 
     websocketRef.current.onopen = () => {
@@ -39,13 +40,14 @@ function Chat({ selectedUser }: ChatProps) {
     };
 
     websocketRef.current.onmessage = (event: MessageEvent) => {
-      console.log(`Received: ${event.data}`);
+      const message: api.Message = JSON.parse(event.data);
+      setMessages((prev) => [...prev, message]);
     };
 
     websocketRef.current.onerror = (event: Event) => {
       console.error(`Error: ${event}`);
     };
-  }, [currentUser]);
+  }, [chatId, currentUser]);
 
   useEffect(() => {
     const getChatId = async (currentUserId: number, selectedUserId: number) => {
@@ -104,13 +106,10 @@ function Chat({ selectedUser }: ChatProps) {
       if (result.ok) {
         if (websocketRef.current == null) {
           console.error("Connection is not available");
-        } else {
-          websocketRef.current.send(message);
+          return;
         }
-        const lastMessageIndex =
-          messages.length > 0 ? messages.at(-1)!.id++ : 1;
-        const lastMessage = {
-          id: lastMessageIndex,
+
+        const newMessage = {
           chat_id: chatId,
           text: message,
           timestamp: Date(),
@@ -121,7 +120,11 @@ function Chat({ selectedUser }: ChatProps) {
             user: currentUser,
           },
         } as api.Message;
-        setMessages((prev) => [...prev, lastMessage]);
+
+        const data = { chat_id: chatId, message: newMessage };
+        websocketRef.current.send(JSON.stringify(data));
+
+        setMessages((prev) => [...prev, newMessage]);
         setMessage("");
       } else {
         console.error("Unable to create chat message");
