@@ -162,7 +162,9 @@ function Chat({ selectedUser }: ChatProps) {
       {chatName && <h3>{chatName}</h3>}
       <div className={styles.recipients}>
         <span>To: </span>
-        {selectedUser && <UserTitle user={selectedUser} />}
+        {selectedUser && (
+          <UserTitle user={selectedUser} showProfileImage={false} />
+        )}
       </div>
       <Messages
         key={chatId}
