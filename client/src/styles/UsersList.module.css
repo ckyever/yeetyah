@@ -3,6 +3,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
 }
 
 .users-list-item {

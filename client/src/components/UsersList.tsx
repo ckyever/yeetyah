@@ -56,7 +56,7 @@ function UsersList({ setSelectedUser }: UsersListProps) {
                   className={styles["users-list-item"]}
                   onClick={() => handleUserClick(profile)}
                 >
-                  <UserTitle user={profile} />
+                  <UserTitle user={profile} showListLayout={true} />
                 </li>
               );
             })}
