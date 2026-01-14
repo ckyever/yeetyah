@@ -69,6 +69,12 @@ interface AuthData {
   errors?: [ValidatorError];
 }
 
+export interface UserResult extends FetchResult {
+  data: {
+    user: User;
+  };
+}
+
 export interface User {
   username: string;
   password: string;
