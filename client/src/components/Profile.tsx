@@ -16,8 +16,12 @@ function Profile({ profileImage, username, displayName }: Props) {
     <div className={styles.profile}>
       <div className={styles.title}>
         {profileImage && <img src={profileImage} alt="your profile picture" />}
-        <h1>{profileName}</h1>
-        <Link to="/profile">Edit</Link>
+        <div className={styles["profile-text"]}>
+          <h1 className={styles["profile-title"]}>{profileName}</h1>
+          <Link to="/profile" className={styles["edit-link"]}>
+            Edit
+          </Link>
+        </div>
       </div>
       <Logout />
     </div>

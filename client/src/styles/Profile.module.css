@@ -1,12 +1,29 @@
 .profile {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  padding: 8px;
 }
 
 .title {
   display: flex;
   justify-self: center;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.edit-link {
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: white;
 }
