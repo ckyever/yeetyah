@@ -12,7 +12,14 @@ function UserTitle({ user }: UserTitleProps) {
     title = user.username;
   }
 
-  return <div>{title}</div>;
+  return (
+    <div>
+      {user.profile_image && (
+        <img src={user.profile_image} alt={`${title}'s profile picture`} />
+      )}
+      <div>{title}</div>
+    </div>
+  );
 }
 
 export default UserTitle;

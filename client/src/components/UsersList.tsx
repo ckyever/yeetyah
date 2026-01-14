@@ -29,7 +29,7 @@ function UsersList({ setSelectedUser }: UsersListProps) {
       }
     };
     getUsers();
-  }, []);
+  }, [currentUser]);
 
   const handleUserClick = (user: api.UsersListItem) => {
     setSelectedUser(user);

@@ -16,7 +16,7 @@ function Home() {
   return (
     <>
       <Profile
-        profileImage={currentUser && currentUser.profile_image}
+        profileImage={(currentUser && currentUser.profile_image) ?? null}
         username={currentUser && currentUser.username}
         displayName={(currentUser && currentUser.display_name) ?? null}
       />

@@ -49,6 +49,7 @@ export interface UsersListItem {
   id: number;
   username: string;
   display_name: string;
+  profile_image: string;
 }
 
 export interface UsernameResult extends FetchResult {
