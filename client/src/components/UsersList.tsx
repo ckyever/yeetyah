@@ -6,6 +6,8 @@ import * as context from "../context";
 
 import UserTitle from "./UserTitle";
 
+import styles from "../styles/UsersList.module.css";
+
 interface UsersListProps {
   setSelectedUser: React.Dispatch<
     React.SetStateAction<api.UsersListItem | null>
@@ -41,12 +43,16 @@ function UsersList({ setSelectedUser }: UsersListProps) {
       {usersList.length === 0 ? (
         <div>*Cricket noises* 🦗</div>
       ) : (
-        <ul>
+        <ul className={styles["users-list"]}>
           {usersList &&
             usersList.map((profile) => {
               // Only show user if it isn't the current one
               return (
-                <li key={profile.id} onClick={() => handleUserClick(profile)}>
+                <li
+                  key={profile.id}
+                  className={styles["users-list-item"]}
+                  onClick={() => handleUserClick(profile)}
+                >
                   <UserTitle user={profile} />
                 </li>
               );

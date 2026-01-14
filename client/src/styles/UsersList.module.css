@@ -1,0 +1,10 @@
+.users-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.users-list-item {
+  align-items: flex-start;
+}

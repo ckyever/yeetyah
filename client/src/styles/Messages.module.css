@@ -1,12 +1,26 @@
 .message-list {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .message {
-  text-align: left;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
 }
 
-.message.current-user {
-  text-align: right;
+.message.right {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.other-user {
+  display: flex;
+  align-items: flex-start;
+}
+
+.current-user {
+  align-items: flex-end;
 }

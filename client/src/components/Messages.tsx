@@ -48,15 +48,26 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
             id: message.author.user.id,
             username: message.author.user.username,
             display_name: message.author.user.display_name,
+            profile_image: message.author.user.profile_image,
           } as api.UsersListItem;
-          let classNameList = `${styles.message}`;
-          if (titleInfo.id === currentUser!.id) {
-            classNameList += ` ${styles["current-user"]}`;
-          }
+          const isCurrentUser = titleInfo.id === currentUser!.id;
           // Currently have to use index as key because new messages will not have an ID (CKYTODO: Need to fix)
           return (
-            <li key={index} className={classNameList}>
-              <UserTitle user={titleInfo} />
+            <li
+              key={index}
+              className={
+                isCurrentUser
+                  ? `${styles.message} ${styles.right}`
+                  : `${styles.message} ${styles.left}`
+              }
+            >
+              <div
+                className={
+                  isCurrentUser ? styles["current-user"] : styles["other-user"]
+                }
+              >
+                <UserTitle user={titleInfo} />
+              </div>
               <div>{message.text}</div>
             </li>
           );
