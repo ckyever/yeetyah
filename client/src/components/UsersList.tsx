@@ -37,9 +37,12 @@ function UsersList({ setSelectedUser }: UsersListProps) {
     setSelectedUser(user);
   };
 
+  const usersListTitle =
+    usersList.length > 0 ? `Users (${usersList.length})` : "Users";
+
   return (
     <div>
-      <h2>Users ({usersList.length})</h2>
+      <h2>{usersListTitle}</h2>
       {usersList.length === 0 ? (
         <div>*Cricket noises* 🦗</div>
       ) : (
