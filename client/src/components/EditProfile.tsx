@@ -12,26 +12,22 @@ function EditProfile() {
   const [displayName, setDisplayName] = useState<string | undefined>(
     currentUser!.display_name
   );
-  const [errorMessage, setErrorMessage] = useState("");
+  const [saveStatus, setSaveStatus] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSave = async (event: React.FormEvent) => {
+  const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setErrorMessage("");
+    setSaveStatus("Saving...");
+
+    const formData = new FormData(event.currentTarget);
 
     const url = `${import.meta.env.VITE_SERVER_URL}/api/users/${
       currentUser!.id
     }`;
     const result: api.UserResult = await api.apiFetch<api.UserResult>(url, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        display_name: displayName,
-        profile_image: currentUser!.id,
-      }),
+      body: formData,
     });
 
     if (result.ok) {
@@ -43,7 +39,7 @@ function EditProfile() {
 
       navigate("/");
     } else {
-      setErrorMessage("Unable to save profile details");
+      setSaveStatus("Unable to save profile details");
     }
   };
 
@@ -56,7 +52,7 @@ function EditProfile() {
           <input
             id="display-name"
             type="text"
-            name="display-name"
+            name="displayName"
             value={displayName}
             onChange={(event) => {
               setDisplayName(event.target.value);
@@ -64,8 +60,14 @@ function EditProfile() {
           ></input>
         </div>
         <div>
+          {currentUser?.profile_image && (
+            <img
+              src={currentUser?.profile_image}
+              alt="your profile picture"
+            ></img>
+          )}
           <label htmlFor="profile-image">Profile Picture</label>
-          <input id="profile-image" type="file" name="profile-image"></input>
+          <input id="profile-image" type="file" name="profileImage"></input>
         </div>
         <div>
           <button type="submit">Save</button>
@@ -73,7 +75,7 @@ function EditProfile() {
             Cancel
           </button>
         </div>
-        {errorMessage && <div>{errorMessage}</div>}
+        {saveStatus && <div>{saveStatus}</div>}
       </form>
     </div>
   );
