@@ -43,12 +43,12 @@ const getAllUsers = async () => {
 const updateUser = async (
   id: number,
   displayName: string,
-  profileImage: string
+  profileImage: string | undefined
 ) => {
   const user = await prisma.user.update({
     data: {
       display_name: displayName,
-      profile_image: profileImage,
+      ...(profileImage !== undefined && { profile_image: profileImage }),
     },
     where: {
       id: id,

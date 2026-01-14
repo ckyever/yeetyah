@@ -1,4 +1,4 @@
-import { raw, type Request, type Response } from "express";
+import { type Request, type Response } from "express";
 import { constants as httpConstants } from "http2";
 import * as validator from "express-validator";
 import { type WebsocketRequestHandler } from "express-ws";

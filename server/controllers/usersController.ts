@@ -1,9 +1,11 @@
 import { hash } from "bcryptjs";
 import type { Request, Response, NextFunction } from "express";
 import * as validator from "express-validator";
+import * as fs from "fs/promises";
 import { constants as httpConstants } from "http2";
 import jwt from "jsonwebtoken";
 
+import { upload } from "./cloud";
 import { VALIDATION } from "../lib/constants";
 import * as usersModel from "../models/usersModel";
 
@@ -129,10 +131,7 @@ const getUserList = async (req: Request, res: Response) => {
   }
 };
 
-const validateUserUpdate = [
-  validator.body("display_name").trim(),
-  validator.body("profile_image").trim(),
-];
+const validateUserUpdate = [validator.body("displayName").trim()];
 
 const updateUser = [
   validateUserUpdate,
@@ -144,15 +143,19 @@ const updateUser = [
         .json({ message: "Invalid update user body", errors: errors.array() });
     }
 
-    const { display_name: displayName, profile_image: profileImage } =
-      validator.matchedData(req);
-
+    const { displayName } = validator.matchedData(req);
     const { userId } = req.params;
+
+    let cloudUrl;
+    if (req?.file?.path) {
+      cloudUrl = await upload(req.file.path);
+      await fs.unlink(req.file.path);
+    }
 
     const updatedUser = await usersModel.updateUser(
       Number(userId),
       displayName,
-      profileImage
+      cloudUrl ?? undefined
     );
 
     if (!updateUser) {
