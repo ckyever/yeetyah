@@ -34,6 +34,16 @@
   );
 }
 
+.button.grey {
+  border: 1px solid #656464;
+  padding: 8px;
+  background: linear-gradient(
+    var(--gradient-direction),
+    #f2f6f6 0%,
+    #c9d8ed 100%
+  );
+}
+
 .icon.logout {
   padding: 2px;
 }

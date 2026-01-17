@@ -196,14 +196,21 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
         messages={messages}
         setMessages={setMessages}
       />
-      <textarea
-        value={message}
-        onChange={(event) => setMessage(event.target.value)}
-        onKeyDown={handleKeyDown}
-      ></textarea>
-      <button type="submit" disabled={selectedUser && message ? false : true}>
-        Send
-      </button>
+      <fieldset className={styles["send-message-area"]}>
+        <textarea
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
+          onKeyDown={handleKeyDown}
+          className={styles["message-input"]}
+        ></textarea>
+        <button
+          type="submit"
+          disabled={selectedUser && message ? false : true}
+          className={`${styles["send-button"]} ${buttonStyles.button} ${buttonStyles.grey}`}
+        >
+          Send
+        </button>
+      </fieldset>
     </form>
   );
 }

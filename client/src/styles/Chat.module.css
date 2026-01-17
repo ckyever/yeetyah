@@ -12,3 +12,15 @@
   display: flex;
   gap: 4px;
 }
+
+.send-message-area {
+  display: flex;
+  padding: 8px;
+  border: none;
+  background-color: white;
+}
+
+.message-input {
+  border: none;
+  flex: 1;
+}
