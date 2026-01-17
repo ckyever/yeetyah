@@ -9,7 +9,8 @@
 
 .message {
   align-self: flex-start;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
   align-items: center;
 }
 
@@ -18,11 +19,24 @@
   flex-direction: row-reverse;
 }
 
-.other-user {
-  display: flex;
-  align-items: flex-start;
+.profile-image {
+  grid-row: 2/3;
 }
 
-.current-user {
-  align-items: flex-end;
+.message.right .profile-image {
+  grid-column: 2/3;
+}
+
+.display-name {
+  display: flex;
+  gap: 5px;
+  grid-column: 2/3;
+}
+
+.message.right .display-name {
+  grid-column: 1/2;
+}
+
+.text {
+  grid-row: 2/3;
 }

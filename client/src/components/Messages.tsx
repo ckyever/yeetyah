@@ -72,14 +72,20 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
                   : `${styles.message} ${styles.left}`
               }
             >
-              <div
-                className={
-                  isCurrentUser ? styles["current-user"] : styles["other-user"]
-                }
-              >
-                <UserTitle user={titleInfo} />
+              <img
+                className={styles["profile-image"]}
+                src={message.author.user.profile_image}
+                alt={`${message.author.user.display_name}'s profile picture`}
+              />
+              <div className={styles["display-name"]}>
+                <UserTitle
+                  user={titleInfo}
+                  showUsernameOnly={true}
+                  showProfileImage={false}
+                />
+                <span> says: </span>
               </div>
-              <div>{message.text}</div>
+              <div className={styles["text"]}>{message.text}</div>
             </li>
           );
         })}
