@@ -1,0 +1,23 @@
+:root {
+  --main-border-colour: #045bf8;
+  --light-border-colour: #139cff;
+  --dark-border-colour: #0750ea;
+}
+
+.window {
+  border-radius: 6px;
+  border-right: 4px solid var(--main-border-colour);
+  border-bottom: 4px solid var(--main-border-colour);
+  border-left: 4px solid var(--main-border-colour);
+}
+
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(
+    180deg,
+    var(--light-border-colour) 0%,
+    var(--main-border-colour) 10%,
+    var(--dark-border-colour) 90%
+  );
+}

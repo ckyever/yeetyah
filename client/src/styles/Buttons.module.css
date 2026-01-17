@@ -7,9 +7,6 @@
 }
 
 .button {
-  position: absolute;
-  top: 0;
-  right: 0;
   background: linear-gradient(
     var(--gradient-direction),
     #3d8be8 0%,

@@ -9,6 +9,7 @@ import UserTitle from "./UserTitle";
 
 import styles from "../styles/Chat.module.css";
 import buttonStyles from "../styles/Buttons.module.css";
+import windowStyles from "../styles/Window.module.css";
 
 import closeIcon from "../assets/icons/close.svg";
 
@@ -110,7 +111,7 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
             user_id: currentUser!.id,
             message,
           }),
-        }
+        },
       );
 
       if (result.ok) {
@@ -165,11 +166,13 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
 
   return (
     <form
-      className={styles["chat-window"]}
+      className={`${styles["chat-window"]} ${windowStyles.window}`}
       onSubmit={(event) => handleSubmit(event)}
       ref={formRef}
     >
-      <div>
+      <div
+        className={`${styles["window-header"]} ${windowStyles["title-bar"]}`}
+      >
         {chatName && <h3>{chatName}</h3>}
         <button
           type="button"
