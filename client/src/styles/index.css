@@ -78,7 +78,10 @@ h6 {
 
 /* End of CSS Reset */
 
+:root {
+  --main-background-colour: #dde2f1;
+}
+
 body {
-  background-color: #2d353b;
-  color: white;
+  background-color: var(--main-background-colour);
 }
