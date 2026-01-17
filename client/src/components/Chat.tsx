@@ -8,6 +8,7 @@ import Messages from "./Messages";
 import UserTitle from "./UserTitle";
 
 import styles from "../styles/Chat.module.css";
+import buttonStyles from "../styles/Buttons.module.css";
 
 import closeIcon from "../assets/icons/close.svg";
 
@@ -173,9 +174,9 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
         <button
           type="button"
           onClick={closeChat}
-          className={styles["close-button"]}
+          className={`${buttonStyles.button} ${buttonStyles.red}`}
         >
-          <img src={closeIcon} alt="close icon" className={styles.icon} />
+          <img src={closeIcon} alt="close icon" className={buttonStyles.icon} />
         </button>
       </div>
       <div className={styles.recipients}>

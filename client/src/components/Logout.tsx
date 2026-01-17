@@ -4,6 +4,10 @@ import * as api from "../lib/api";
 import * as constants from "../constants";
 import * as context from "../context";
 
+import buttonStyles from "../styles/Buttons.module.css";
+
+import logoutIcon from "../assets/icons/logout.svg";
+
 function Logout() {
   const navigate = useNavigate();
   const { setUserToken, setCurrentUser } =
@@ -18,8 +22,16 @@ function Logout() {
   };
 
   return (
-    <button type="button" onClick={handleLogout}>
-      Logout
+    <button
+      type="button"
+      onClick={handleLogout}
+      className={`${buttonStyles.button} ${buttonStyles.yellow}`}
+    >
+      <img
+        src={logoutIcon}
+        alt="logout icon"
+        className={`${buttonStyles.icon} ${buttonStyles.logout}`}
+      />
     </button>
   );
 }

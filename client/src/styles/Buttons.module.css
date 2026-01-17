@@ -1,0 +1,42 @@
+:root {
+  --gradient-direction: 135deg;
+}
+
+.icon {
+  width: 24px;
+}
+
+.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(
+    var(--gradient-direction),
+    #3d8be8 0%,
+    #115fc7 100%
+  );
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 0;
+  margin: 4px;
+}
+
+.button.red {
+  background: linear-gradient(
+    var(--gradient-direction),
+    #ea9b8a 0%,
+    #e41c0d 100%
+  );
+}
+
+.button.yellow {
+  background: linear-gradient(
+    var(--gradient-direction),
+    #e8bc7c 0%,
+    #ddad12 100%
+  );
+}
+
+.icon.logout {
+  padding: 2px;
+}
