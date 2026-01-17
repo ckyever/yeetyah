@@ -174,13 +174,19 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
         className={`${styles["window-header"]} ${windowStyles["title-bar"]}`}
       >
         {chatName && <h3>{chatName}</h3>}
-        <button
-          type="button"
-          onClick={closeChat}
-          className={`${buttonStyles.button} ${buttonStyles.red}`}
-        >
-          <img src={closeIcon} alt="close icon" className={buttonStyles.icon} />
-        </button>
+        <div className={styles["close-button"]}>
+          <button
+            type="button"
+            onClick={closeChat}
+            className={`${buttonStyles.button} ${buttonStyles.red}`}
+          >
+            <img
+              src={closeIcon}
+              alt="close icon"
+              className={buttonStyles.icon}
+            />
+          </button>
+        </div>
       </div>
       {!chatId && (
         <div className={styles.recipients}>

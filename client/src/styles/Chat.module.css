@@ -7,6 +7,10 @@
   overflow-y: auto;
 }
 
+.close-button {
+  margin-left: auto;
+}
+
 .recipients {
   margin: 20px;
   display: flex;
