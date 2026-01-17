@@ -52,9 +52,11 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
 
   return (
     <ul className={styles["message-list"]} ref={messageListRef}>
-      <li className={styles["start-of-chat"]}>
-        <i>Start of chat history</i>
-      </li>
+      {chatId && (
+        <li className={styles["start-of-chat"]}>
+          <i>Start of chat history</i>
+        </li>
+      )}
       {messages &&
         messages.map((message, index) => {
           const titleInfo = {
