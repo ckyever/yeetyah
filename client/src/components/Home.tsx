@@ -13,6 +13,10 @@ function Home() {
     null
   );
   const { currentUser } = useOutletContext<context.OutletContext>();
+
+  const closeChat = () => {
+    setSelectedUser(null);
+  };
   return (
     <>
       <Profile
@@ -22,7 +26,11 @@ function Home() {
       />
       <UsersList setSelectedUser={setSelectedUser} />
       {selectedUser && (
-        <Chat selectedUser={selectedUser} key={selectedUser.id} />
+        <Chat
+          selectedUser={selectedUser}
+          key={selectedUser.id}
+          closeChat={closeChat}
+        />
       )}
     </>
   );

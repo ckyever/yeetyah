@@ -9,11 +9,14 @@ import UserTitle from "./UserTitle";
 
 import styles from "../styles/Chat.module.css";
 
+import closeIcon from "../assets/icons/close.svg";
+
 interface ChatProps {
   selectedUser: api.UsersListItem | null;
+  closeChat: () => void;
 }
 
-function Chat({ selectedUser }: ChatProps) {
+function Chat({ selectedUser, closeChat }: ChatProps) {
   const [chatId, setChatId] = useState<number | null>(null);
   const [chatName, setChatName] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -46,6 +49,12 @@ function Chat({ selectedUser }: ChatProps) {
 
     websocketRef.current.onerror = (event: Event) => {
       console.error(`Error: ${event}`);
+    };
+
+    return () => {
+      if (websocketRef.current) {
+        websocketRef.current.close();
+      }
     };
   }, [chatId, currentUser]);
 
@@ -159,7 +168,16 @@ function Chat({ selectedUser }: ChatProps) {
       onSubmit={(event) => handleSubmit(event)}
       ref={formRef}
     >
-      {chatName && <h3>{chatName}</h3>}
+      <div>
+        {chatName && <h3>{chatName}</h3>}
+        <button
+          type="button"
+          onClick={closeChat}
+          className={styles["close-button"]}
+        >
+          <img src={closeIcon} alt="close icon" className={styles.icon} />
+        </button>
+      </div>
       <div className={styles.recipients}>
         <span>To: </span>
         {selectedUser && (

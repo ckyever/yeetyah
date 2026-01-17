@@ -3,9 +3,25 @@
   flex-direction: column;
   border: 1px solid black;
   padding: 20px;
+  position: relative;
 }
 
 .recipients {
   display: flex;
   gap: 4px;
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, #ea9b8a 0%, #e41c0d 100%);
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 0;
+  margin: 4px;
+}
+
+.icon {
+  width: 24px;
 }
