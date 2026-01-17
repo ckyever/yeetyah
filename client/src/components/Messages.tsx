@@ -82,7 +82,7 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
                   <div className={styles["display-name"]}>
                     <UserTitle
                       user={titleInfo}
-                      showUsernameOnly={true}
+                      showDisplayNameOnly={true}
                       showProfileImage={false}
                     />
                     <span> says: </span>

@@ -6,19 +6,19 @@ interface UserTitleProps {
   user: api.UsersListItem;
   showProfileImage?: boolean;
   showListLayout?: boolean;
-  showUsernameOnly?: boolean;
+  showDisplayNameOnly?: boolean;
 }
 
 function UserTitle({
   user,
   showProfileImage = true,
   showListLayout = false,
-  showUsernameOnly = false,
+  showDisplayNameOnly = false,
 }: UserTitleProps) {
   let title;
 
-  if (showUsernameOnly) {
-    title = user.username;
+  if (showDisplayNameOnly) {
+    title = user.display_name.length > 0 ? user.display_name : user.username;
   } else {
     if (user.display_name) {
       title = `${user.display_name} (${user.username})`;
