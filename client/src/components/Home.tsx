@@ -8,6 +8,8 @@ import Chat from "./Chat";
 import Profile from "./Profile";
 import UsersList from "./UsersList";
 
+import styles from "../styles/Home.module.css";
+
 function Home() {
   const [selectedUser, setSelectedUser] = useState<api.UsersListItem | null>(
     null
@@ -18,7 +20,7 @@ function Home() {
     setSelectedUser(null);
   };
   return (
-    <>
+    <div className={styles.home}>
       <Profile
         profileImage={(currentUser && currentUser.profile_image) ?? null}
         username={currentUser && currentUser.username}
@@ -32,7 +34,7 @@ function Home() {
           closeChat={closeChat}
         />
       )}
-    </>
+    </div>
   );
 }
 

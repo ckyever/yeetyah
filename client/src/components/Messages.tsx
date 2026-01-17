@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router";
 
 import * as api from "../lib/api";
@@ -16,6 +16,13 @@ interface MessagesProps {
 
 function Messages({ chatId, messages, setMessages }: MessagesProps) {
   const { currentUser } = useOutletContext<context.OutletContext>();
+  const messageListRef = useRef<HTMLUListElement>(null);
+
+  const scrollToBottom = () => {
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
+  };
 
   useEffect(() => {
     const getMessages = async (chatId: number) => {
@@ -40,8 +47,12 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
     }
   }, [chatId, setMessages]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
-    <ul className={styles["message-list"]}>
+    <ul className={styles["message-list"]} ref={messageListRef}>
       {messages &&
         messages.map((message, index) => {
           const titleInfo = {
