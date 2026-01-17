@@ -12,7 +12,7 @@ import styles from "../styles/Home.module.css";
 
 function Home() {
   const [selectedUser, setSelectedUser] = useState<api.UsersListItem | null>(
-    null
+    null,
   );
   const { currentUser } = useOutletContext<context.OutletContext>();
 
@@ -21,11 +21,6 @@ function Home() {
   };
   return (
     <div className={styles.home}>
-      <Profile
-        profileImage={(currentUser && currentUser.profile_image) ?? null}
-        username={currentUser && currentUser.username}
-        displayName={(currentUser && currentUser.display_name) ?? null}
-      />
       <UsersList setSelectedUser={setSelectedUser} />
       {selectedUser && (
         <Chat
@@ -34,6 +29,11 @@ function Home() {
           closeChat={closeChat}
         />
       )}
+      <Profile
+        profileImage={(currentUser && currentUser.profile_image) ?? null}
+        username={currentUser && currentUser.username}
+        displayName={(currentUser && currentUser.display_name) ?? null}
+      />
     </div>
   );
 }
