@@ -182,12 +182,14 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
           <img src={closeIcon} alt="close icon" className={buttonStyles.icon} />
         </button>
       </div>
-      <div className={styles.recipients}>
-        <span>To: </span>
-        {selectedUser && (
-          <UserTitle user={selectedUser} showProfileImage={false} />
-        )}
-      </div>
+      {!chatId && (
+        <div className={styles.recipients}>
+          <span>To: </span>
+          {selectedUser && (
+            <UserTitle user={selectedUser} showProfileImage={false} />
+          )}
+        </div>
+      )}
       <Messages
         key={chatId}
         chatId={chatId}
