@@ -29,9 +29,8 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
       const url = `${
         import.meta.env.VITE_SERVER_URL
       }/api/chat/${chatId}/messages`;
-      const result: api.MessagesResult = await api.apiFetch<api.MessagesResult>(
-        url
-      );
+      const result: api.MessagesResult =
+        await api.apiFetch<api.MessagesResult>(url);
       if (result.data.messages) {
         setMessages(result.data.messages);
       } else {
@@ -53,6 +52,9 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
 
   return (
     <ul className={styles["message-list"]} ref={messageListRef}>
+      <li className={styles["start-of-chat"]}>
+        <i>Start of chat history</i>
+      </li>
       {messages &&
         messages.map((message, index) => {
           const titleInfo = {

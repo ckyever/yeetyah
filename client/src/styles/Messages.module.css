@@ -40,3 +40,9 @@
 .text {
   grid-row: 2/3;
 }
+
+.start-of-chat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
