@@ -173,7 +173,7 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
       <div
         className={`${styles["window-header"]} ${windowStyles["title-bar"]}`}
       >
-        {chatName && <h3>{chatName}</h3>}
+        {chatName ? <h3>{chatName}</h3> : <h3>New chat</h3>}
         <div className={styles["close-button"]}>
           <button
             type="button"
