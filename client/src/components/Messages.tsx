@@ -73,7 +73,7 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
               className={
                 isCurrentUser
                   ? `${styles.message} ${styles.right}`
-                  : `${styles.message} ${styles.left}`
+                  : styles.message
               }
             >
               {!isCurrentUser && (
