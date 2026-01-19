@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router";
 import * as api from "../lib/api";
 import * as context from "../context";
 
+import CloseButton from "./CloseButton";
 import UserTitle from "./UserTitle";
 
 import styles from "../styles/UsersList.module.css";
@@ -13,9 +14,10 @@ interface UsersListProps {
   setSelectedUser: React.Dispatch<
     React.SetStateAction<api.UsersListItem | null>
   >;
+  closeUsersList: () => void;
 }
 
-function UsersList({ setSelectedUser }: UsersListProps) {
+function UsersList({ setSelectedUser, closeUsersList }: UsersListProps) {
   const [usersList, setUsersList] = useState<api.UsersListItem[]>([]);
 
   const { currentUser } = useOutletContext<context.OutletContext>();
@@ -43,7 +45,10 @@ function UsersList({ setSelectedUser }: UsersListProps) {
 
   return (
     <div className={windowStyles.window}>
-      <h2 className={windowStyles["title-bar"]}>{usersListTitle}</h2>
+      <div className={windowStyles["title-bar"]}>
+        <h2 className={windowStyles["title-bar"]}>{usersListTitle}</h2>
+        <CloseButton handleClick={closeUsersList} />
+      </div>
       {usersList.length === 0 ? (
         <div>*Cricket noises* 🦗</div>
       ) : (

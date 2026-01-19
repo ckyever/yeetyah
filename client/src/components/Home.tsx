@@ -27,7 +27,12 @@ function Home() {
 
   return (
     <div className={styles.home}>
-      {showUserList && <UsersList setSelectedUser={setSelectedUser} />}
+      {showUserList && (
+        <UsersList
+          setSelectedUser={setSelectedUser}
+          closeUsersList={toggleUserList}
+        />
+      )}
       {selectedUser && (
         <Chat
           selectedUser={selectedUser}

@@ -4,14 +4,13 @@ import { useOutletContext } from "react-router";
 import * as api from "../lib/api";
 import * as context from "../context";
 
+import CloseButton from "./CloseButton";
 import Messages from "./Messages";
 import UserTitle from "./UserTitle";
 
-import styles from "../styles/Chat.module.css";
 import buttonStyles from "../styles/Buttons.module.css";
+import styles from "../styles/Chat.module.css";
 import windowStyles from "../styles/Window.module.css";
-
-import closeIcon from "../assets/icons/close.svg";
 
 interface ChatProps {
   selectedUser: api.UsersListItem | null;
@@ -175,17 +174,7 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
       >
         {chatName ? <h3>{chatName}</h3> : <h3>New chat</h3>}
         <div className={styles["close-button"]}>
-          <button
-            type="button"
-            onClick={closeChat}
-            className={`${buttonStyles.button} ${buttonStyles.red}`}
-          >
-            <img
-              src={closeIcon}
-              alt="close icon"
-              className={buttonStyles.icon}
-            />
-          </button>
+          <CloseButton handleClick={closeChat} />
         </div>
       </div>
       {!chatId && (
