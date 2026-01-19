@@ -1,3 +1,8 @@
+:root {
+  --current-user-message-background: #377dee;
+  --other-user-message-background: #f9fcff;
+}
+
 .message-list {
   list-style: none;
   padding: 0 8px;
@@ -12,6 +17,7 @@
   display: grid;
   grid-template-columns: repeat(2, max-content);
   align-items: center;
+  gap: 4px;
 }
 
 .message.right {
@@ -38,7 +44,15 @@
 }
 
 .text {
+  padding: 6px;
   grid-row: 2/3;
+  background-color: var(--other-user-message-background);
+  border-radius: 8px;
+}
+
+.message.right .text {
+  background-color: var(--current-user-message-background);
+  color: white;
 }
 
 .start-of-chat {
