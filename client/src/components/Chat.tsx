@@ -35,14 +35,6 @@ function Chat({ selectedUser, closeChat }: ChatProps) {
     }/api/chat/${chatId}/user/${currentUser!.id}`;
     websocketRef.current = new WebSocket(url);
 
-    websocketRef.current.onopen = () => {
-      console.log("Connected");
-    };
-
-    websocketRef.current.onclose = () => {
-      console.log("Disconnected");
-    };
-
     websocketRef.current.onmessage = (event: MessageEvent) => {
       const message: api.Message = JSON.parse(event.data);
       setMessages((prev) => [...prev, message]);
