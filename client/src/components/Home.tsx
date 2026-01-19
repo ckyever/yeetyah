@@ -11,17 +11,23 @@ import UsersList from "./UsersList";
 import styles from "../styles/Home.module.css";
 
 function Home() {
+  const [showUserList, setShowUserList] = useState(true);
   const [selectedUser, setSelectedUser] = useState<api.UsersListItem | null>(
     null,
   );
   const { currentUser } = useOutletContext<context.OutletContext>();
 
+  const toggleUserList = () => {
+    setShowUserList((prev) => !prev);
+  };
+
   const closeChat = () => {
     setSelectedUser(null);
   };
+
   return (
     <div className={styles.home}>
-      <UsersList setSelectedUser={setSelectedUser} />
+      {showUserList && <UsersList setSelectedUser={setSelectedUser} />}
       {selectedUser && (
         <Chat
           selectedUser={selectedUser}
@@ -33,6 +39,7 @@ function Home() {
         profileImage={(currentUser && currentUser.profile_image) ?? null}
         username={currentUser && currentUser.username}
         displayName={(currentUser && currentUser.display_name) ?? null}
+        showUserListButton={toggleUserList}
       />
     </div>
   );

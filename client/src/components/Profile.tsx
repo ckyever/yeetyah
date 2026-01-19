@@ -8,9 +8,15 @@ interface Props {
   profileImage: string | null;
   username: string | null;
   displayName: string | null;
+  showUserListButton: () => void;
 }
 
-function Profile({ profileImage, username, displayName }: Props) {
+function Profile({
+  profileImage,
+  username,
+  displayName,
+  showUserListButton,
+}: Props) {
   const profileName = displayName ? `${displayName} (${username})` : username;
   return (
     <div className={styles.profile}>
@@ -23,6 +29,7 @@ function Profile({ profileImage, username, displayName }: Props) {
           </Link>
         </div>
       </div>
+      <button onClick={showUserListButton}>Users</button>
       <Logout />
     </div>
   );
