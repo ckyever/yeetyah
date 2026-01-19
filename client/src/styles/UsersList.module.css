@@ -3,11 +3,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 8px;
   list-style: none;
   padding: 0;
 }
 
 .users-list-item {
+  width: 100%;
+  padding: 4px;
+  display: flex;
   align-items: flex-start;
+  border-bottom: 1px solid #b7b7b7;
 }
