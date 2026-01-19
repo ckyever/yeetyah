@@ -2,6 +2,8 @@ import * as api from "../lib/api";
 
 import styles from "../styles/UserTitle.module.css";
 
+import defaultIcon from "../assets/default-icon.png";
+
 interface UserTitleProps {
   user: api.UsersListItem;
   showProfileImage?: boolean;
@@ -31,11 +33,14 @@ function UserTitle({
     ? `${styles["user-title"]} ${styles["list-item"]}`
     : `${styles["user-title"]}`;
 
+  const profileImage =
+    user.profile_image.length > 0 ? user.profile_image : defaultIcon;
+
   return (
     <div className={userTitleClass}>
       <div>{title}</div>
-      {showProfileImage && user.profile_image && (
-        <img src={user.profile_image} alt={`${title}'s profile picture`} />
+      {showProfileImage && (
+        <img src={profileImage} alt={`${title}'s profile picture`} />
       )}
     </div>
   );
