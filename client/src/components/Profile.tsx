@@ -8,14 +8,14 @@ interface Props {
   profileImage: string | null;
   username: string | null;
   displayName: string | null;
-  showUserListButton: () => void;
+  toggleUserList: () => void;
 }
 
 function Profile({
   profileImage,
   username,
   displayName,
-  showUserListButton,
+  toggleUserList,
 }: Props) {
   const profileName = displayName ? `${displayName} (${username})` : username;
   return (
@@ -29,7 +29,9 @@ function Profile({
           </Link>
         </div>
       </div>
-      <button onClick={showUserListButton}>Users</button>
+      <button className={styles["users-button"]} onClick={toggleUserList}>
+        Users
+      </button>
       <Logout />
     </div>
   );

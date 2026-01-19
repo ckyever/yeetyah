@@ -46,7 +46,7 @@ function Home() {
         profileImage={(currentUser && currentUser.profile_image) ?? null}
         username={currentUser && currentUser.username}
         displayName={(currentUser && currentUser.display_name) ?? null}
-        showUserListButton={toggleUserList}
+        toggleUserList={toggleUserList}
       />
     </div>
   );

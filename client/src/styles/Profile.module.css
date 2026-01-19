@@ -37,3 +37,18 @@
   text-decoration: none;
   color: white;
 }
+
+.users-button {
+  height: 100%;
+  width: 80px;
+  border-radius: 4px;
+  background-color: #3980f4;
+  background: linear-gradient(
+    180deg,
+    var(#5694f7) 0%,
+    var(#3980f4) 10%,
+    var(--dark-border-colour) 90%
+  );
+  color: white;
+  border: none;
+}
