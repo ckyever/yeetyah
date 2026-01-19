@@ -7,6 +7,7 @@ import * as context from "../context";
 import UserTitle from "./UserTitle";
 
 import styles from "../styles/UsersList.module.css";
+import windowStyles from "../styles/Window.module.css";
 
 interface UsersListProps {
   setSelectedUser: React.Dispatch<
@@ -26,7 +27,7 @@ function UsersList({ setSelectedUser }: UsersListProps) {
         await api.apiFetch<api.UsersListResult>(url);
       if (result) {
         setUsersList(
-          result.data.users.filter((user) => user.id !== currentUser!.id)
+          result.data.users.filter((user) => user.id !== currentUser!.id),
         );
       }
     };
@@ -41,8 +42,8 @@ function UsersList({ setSelectedUser }: UsersListProps) {
     usersList.length > 0 ? `Users (${usersList.length})` : "Users";
 
   return (
-    <div>
-      <h2>{usersListTitle}</h2>
+    <div className={windowStyles.window}>
+      <h2 className={windowStyles["title-bar"]}>{usersListTitle}</h2>
       {usersList.length === 0 ? (
         <div>*Cricket noises* 🦗</div>
       ) : (
