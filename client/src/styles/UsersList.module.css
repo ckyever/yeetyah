@@ -1,4 +1,5 @@
 .users-list {
+  background-color: var(--main-background-colour);
   display: flex;
   flex-direction: column;
   justify-content: center;

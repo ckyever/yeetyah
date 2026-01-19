@@ -28,10 +28,12 @@ function Home() {
   return (
     <div className={styles.home}>
       {showUserList && (
-        <UsersList
-          setSelectedUser={setSelectedUser}
-          closeUsersList={toggleUserList}
-        />
+        <div className={styles["users-popup"]}>
+          <UsersList
+            setSelectedUser={setSelectedUser}
+            closeUsersList={toggleUserList}
+          />
+        </div>
       )}
       {selectedUser && (
         <Chat
