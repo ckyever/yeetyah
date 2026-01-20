@@ -4,6 +4,8 @@ import Logout from "./Logout";
 
 import styles from "../styles/Profile.module.css";
 
+import defaultIcon from "../assets/default-icon.png";
+
 interface Props {
   profileImage: string | null;
   username: string | null;
@@ -18,10 +20,14 @@ function Profile({
   toggleUserList,
 }: Props) {
   const profileName = displayName ? `${displayName} (${username})` : username;
+  console.log(`"${profileImage}"`);
+  const imagePreview =
+    profileImage && profileImage.length > 0 ? profileImage : defaultIcon;
+  console.log(imagePreview);
   return (
     <div className={styles.profile}>
       <div className={styles.title}>
-        {profileImage && <img src={profileImage} alt="your profile picture" />}
+        {imagePreview && <img src={imagePreview} alt="your profile picture" />}
         <div className={styles["profile-text"]}>
           <h1 className={styles["profile-title"]}>{profileName}</h1>
           <Link to="/profile" className={styles["edit-link"]}>
