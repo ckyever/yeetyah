@@ -50,7 +50,7 @@ function UsersList({ setSelectedUser, closeUsersList }: UsersListProps) {
         <CloseButton handleClick={closeUsersList} />
       </div>
       {usersList.length === 0 ? (
-        <div>*Cricket noises* 🦗</div>
+        <div>Loading...</div>
       ) : (
         <ul className={styles["users-list"]}>
           {usersList &&
