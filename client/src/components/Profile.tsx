@@ -20,10 +20,8 @@ function Profile({
   toggleUserList,
 }: Props) {
   const profileName = displayName ? `${displayName} (${username})` : username;
-  console.log(`"${profileImage}"`);
   const imagePreview =
     profileImage && profileImage.length > 0 ? profileImage : defaultIcon;
-  console.log(imagePreview);
   return (
     <div className={styles.profile}>
       <div className={styles.title}>
@@ -38,7 +36,9 @@ function Profile({
       <button className={styles["users-button"]} onClick={toggleUserList}>
         Users
       </button>
-      <Logout />
+      <div className={styles["logout-button"]}>
+        <Logout />
+      </div>
     </div>
   );
 }

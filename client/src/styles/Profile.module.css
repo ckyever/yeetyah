@@ -1,7 +1,6 @@
 .profile {
   margin-top: auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 4px;
   background: linear-gradient(
@@ -11,6 +10,7 @@
     var(--dark-border-colour) 90%
   );
   color: white;
+  gap: 16px;
 }
 
 .title {
@@ -30,6 +30,10 @@
 .profile-title {
   font-size: 1.1rem;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
 }
 
 .edit-link {
@@ -51,4 +55,8 @@
   );
   color: white;
   border: none;
+}
+
+.logout-button {
+  margin-left: auto;
 }
