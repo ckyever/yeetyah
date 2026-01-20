@@ -7,6 +7,8 @@ import * as constants from "../constants";
 
 import styles from "../styles/EditProfile.module.css";
 
+import defaultIcon from "../assets/default-icon.png";
+
 function EditProfile() {
   const { currentUser, setCurrentUser } =
     useOutletContext<context.OutletContext>();
@@ -15,6 +17,9 @@ function EditProfile() {
     currentUser!.display_name,
   );
   const [saveStatus, setSaveStatus] = useState("");
+  const [imagePreview, setImagePreview] = useState(
+    currentUser?.profile_image ? currentUser?.profile_image : defaultIcon,
+  );
 
   const navigate = useNavigate();
 
@@ -45,6 +50,17 @@ function EditProfile() {
     }
   };
 
+  const handleProfileImageChange = async (event) => {
+    const uploadedImage = event.target.files[0];
+
+    if (uploadedImage) {
+      const imageUrl = URL.createObjectURL(uploadedImage);
+      setImagePreview(imageUrl);
+
+      return () => URL.revokeObjectURL(imageUrl);
+    }
+  };
+
   return (
     <div className={styles["edit-profile"]}>
       <h1>Edit Profile</h1>
@@ -62,13 +78,20 @@ function EditProfile() {
           ></input>
         </div>
         <div className={styles["profile-image-select"]}>
-          {currentUser?.profile_image && (
+          {imagePreview && (
             <img
-              src={currentUser?.profile_image}
+              src={imagePreview}
               alt="your profile picture"
+              className={styles["image-preview"]}
             ></img>
           )}
-          <input id="profile-image" type="file" name="profileImage"></input>
+          <input
+            id="profile-image"
+            type="file"
+            name="profileImage"
+            accept="image/*"
+            onChange={handleProfileImageChange}
+          ></input>
         </div>
         <div>
           <button type="submit">Save</button>
