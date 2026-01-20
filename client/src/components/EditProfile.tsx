@@ -50,8 +50,13 @@ function EditProfile() {
     }
   };
 
-  const handleProfileImageChange = async (event) => {
-    const uploadedImage = event.target.files[0];
+  const handleProfileImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const uploadedImage = files[0];
 
     if (uploadedImage) {
       const imageUrl = URL.createObjectURL(uploadedImage);
