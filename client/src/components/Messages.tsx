@@ -8,6 +8,8 @@ import UserTitle from "./UserTitle";
 
 import styles from "../styles/Messages.module.css";
 
+import defaultIcon from "../assets/default-icon.png";
+
 interface MessagesProps {
   chatId: number | null;
   messages: api.Message[];
@@ -66,6 +68,10 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
             profile_image: message.author.user.profile_image,
           } as api.UsersListItem;
           const isCurrentUser = titleInfo.id === currentUser!.id;
+          let profileImage = message.author.user.profile_image;
+          if (!profileImage) {
+            profileImage = defaultIcon;
+          }
           // Currently have to use index as key because new messages will not have an ID (CKYTODO: Need to fix)
           return (
             <li
@@ -80,7 +86,7 @@ function Messages({ chatId, messages, setMessages }: MessagesProps) {
                 <>
                   <img
                     className={styles["profile-image"]}
-                    src={message.author.user.profile_image}
+                    src={profileImage}
                     alt={`${message.author.user.display_name}'s profile picture`}
                   />
                   <div className={styles["display-name"]}>
