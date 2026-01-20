@@ -5,12 +5,14 @@ import * as api from "../lib/api";
 import * as context from "../context";
 import * as constants from "../constants";
 
+import styles from "../styles/EditProfile.module.css";
+
 function EditProfile() {
   const { currentUser, setCurrentUser } =
     useOutletContext<context.OutletContext>();
 
   const [displayName, setDisplayName] = useState<string | undefined>(
-    currentUser!.display_name
+    currentUser!.display_name,
   );
   const [saveStatus, setSaveStatus] = useState("");
 
@@ -34,7 +36,7 @@ function EditProfile() {
       setCurrentUser(result.data.user);
       localStorage.setItem(
         constants.LOCAL_STORAGE_KEY_USER,
-        JSON.stringify(result.data.user)
+        JSON.stringify(result.data.user),
       );
 
       navigate("/");
@@ -44,9 +46,9 @@ function EditProfile() {
   };
 
   return (
-    <div>
+    <div className={styles["edit-profile"]}>
       <h1>Edit Profile</h1>
-      <form onSubmit={handleSave}>
+      <form onSubmit={handleSave} className={styles["edit-form"]}>
         <div>
           <label htmlFor="display-name">Display Name</label>
           <input
@@ -59,14 +61,13 @@ function EditProfile() {
             }}
           ></input>
         </div>
-        <div>
+        <div className={styles["profile-image-select"]}>
           {currentUser?.profile_image && (
             <img
               src={currentUser?.profile_image}
               alt="your profile picture"
             ></img>
           )}
-          <label htmlFor="profile-image">Profile Picture</label>
           <input id="profile-image" type="file" name="profileImage"></input>
         </div>
         <div>
