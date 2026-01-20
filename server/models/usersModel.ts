@@ -4,7 +4,7 @@ const createUser = async (
   username: string,
   password: string,
   displayName: string,
-  profileImage: string
+  profileImage: string,
 ) => {
   const newUser = await prisma.user.create({
     data: {
@@ -36,14 +36,14 @@ const doesUsernameExist = async (username: string) => {
 };
 
 const getAllUsers = async () => {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({ orderBy: { username: "asc" } });
   return users;
 };
 
 const updateUser = async (
   id: number,
   displayName: string,
-  profileImage: string | undefined
+  profileImage: string | undefined,
 ) => {
   const user = await prisma.user.update({
     data: {
