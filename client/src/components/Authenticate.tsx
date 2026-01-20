@@ -56,9 +56,8 @@ function Authenticate({ authMode }: AuthenticateProps) {
 
     setUsernameAvailability("Checking...");
     const url = `${SERVER_URL}/api/users/username/${usernameValue}`;
-    const result: api.UsernameResult = await api.apiFetch<api.UsernameResult>(
-      url
-    );
+    const result: api.UsernameResult =
+      await api.apiFetch<api.UsernameResult>(url);
     if (result.data.is_available) {
       setUsernameAvailability("This username is available");
       usernameInput.setCustomValidity("");
@@ -69,7 +68,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
   };
 
   const handleConfirmPasswordChange = async (
-    confirmPasswordInput: HTMLInputElement
+    confirmPasswordInput: HTMLInputElement,
   ) => {
     const confirmPasswordValue = confirmPasswordInput.value;
     setConfirmPassword(confirmPasswordValue);
@@ -93,7 +92,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
 
     if (result.data.errors) {
       setValidationErrors(
-        result.data.errors.map((error: api.ValidatorError) => error.msg)
+        result.data.errors.map((error: api.ValidatorError) => error.msg),
       );
     } else {
       if (result.data.token && result.data.user) {
@@ -101,11 +100,11 @@ function Authenticate({ authMode }: AuthenticateProps) {
         setCurrentUser(result.data.user);
         localStorage.setItem(
           constants.LOCAL_STORAGE_KEY_USER_TOKEN,
-          result.data.token
+          result.data.token,
         );
         localStorage.setItem(
           constants.LOCAL_STORAGE_KEY_USER,
-          JSON.stringify(result.data.user)
+          JSON.stringify(result.data.user),
         );
         navigate("/", { replace: true });
       } else {
@@ -132,7 +131,7 @@ function Authenticate({ authMode }: AuthenticateProps) {
 
     if (result.data.errors) {
       errorMessages.push(
-        ...result.data.errors.map((error: api.ValidatorError) => error.msg)
+        ...result.data.errors.map((error: api.ValidatorError) => error.msg),
       );
     }
 
@@ -141,11 +140,11 @@ function Authenticate({ authMode }: AuthenticateProps) {
       setCurrentUser(result.data.user);
       localStorage.setItem(
         constants.LOCAL_STORAGE_KEY_USER_TOKEN,
-        result.data.token
+        result.data.token,
       );
       localStorage.setItem(
         constants.LOCAL_STORAGE_KEY_USER,
-        JSON.stringify(result.data.user)
+        JSON.stringify(result.data.user),
       );
       navigate("/", { replace: true });
     } else {

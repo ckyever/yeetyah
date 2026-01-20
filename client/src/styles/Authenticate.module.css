@@ -37,6 +37,15 @@
 }
 
 .submit-button {
+  height: 40px;
   margin-top: 12px;
   padding: 8px;
+  color: white;
+  background: linear-gradient(
+    180deg,
+    var(--light-border-colour) 0%,
+    var(--main-border-colour) 10%,
+    var(--dark-border-colour) 90%
+  );
+  border: none;
 }
