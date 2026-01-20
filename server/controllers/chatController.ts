@@ -53,7 +53,7 @@ const newConnection: WebsocketRequestHandler = async (ws, req, next) => {
   } else {
     connections.set(
       chatIdNumber,
-      new Map<number, WebSocket>([[userIdNumber, ws]])
+      new Map<number, WebSocket>([[userIdNumber, ws]]),
     );
   }
   next();
@@ -61,11 +61,6 @@ const newConnection: WebsocketRequestHandler = async (ws, req, next) => {
 
 const messageListener: WebsocketRequestHandler = async (ws, req) => {
   ws.on("message", (message: string) => {
-    // If chat ID does not exist
-    // Create chat
-    // Create message
-    // Send message
-    // Chat ID does exist
     const data: ChatData = JSON.parse(message);
 
     const recipients = connections.get(data.chat_id);
@@ -134,7 +129,7 @@ const createNewChat = [
       const newMessage = await messageModel.createMessage(
         chat.id,
         chat.recipients[0]!.id,
-        message
+        message,
       );
 
       if (!newMessage) {
@@ -243,7 +238,7 @@ const createNewChatMessage = [
 
     const chatUserId = await chatUserModel.getChatUserIdFromUserId(
       chatId,
-      userId
+      userId,
     );
 
     if (!chatUserId) {
@@ -256,7 +251,7 @@ const createNewChatMessage = [
       const newMessage = await messageModel.createMessage(
         chatId,
         chatUserId,
-        message
+        message,
       );
       return res.status(httpConstants.HTTP_STATUS_CREATED).json({
         message: newMessage,
