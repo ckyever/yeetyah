@@ -8,7 +8,10 @@ import * as context from "../context";
 
 import ValidationErrors from "./ValidationErrors";
 
+import CloseButton from "./CloseButton";
+
 import styles from "../styles/Authenticate.module.css";
+import windowStyles from "../styles/Window.module.css";
 
 interface AuthenticateProps {
   authMode: "Login" | "Signup";
@@ -174,94 +177,107 @@ function Authenticate({ authMode }: AuthenticateProps) {
     await handleLogin("guest", "hunter2");
   };
 
+  const handleClose = () => {
+    alert("No don't leave yet :(");
+  };
+
   return (
     <div className={styles["page-authenticate"]}>
-      <form
-        className={styles["authenticate-form"]}
-        onSubmit={(event) => handleSubmit(event)}
-      >
-        <h1>{isLogin ? "Yeetyah" : "Sign Up"}</h1>
-        {validationErrors && <ValidationErrors errors={validationErrors} />}
-        <div className={styles.field}>
-          <div className={styles["field-header"]}>
-            <label htmlFor="username">Username</label>
-            <span>{username && usernameAvailability}</span>
-          </div>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(event) => handleUsernameChange(event.target)}
-            required
-            maxLength={isLogin ? undefined : 30}
-          ></input>
+      <div className={`${windowStyles.window} ${styles.window}`}>
+        <div className={windowStyles["title-bar"]}>
+          <h1 className={windowStyles["title-bar"]}>
+            {isLogin ? "Yeetyah" : "Sign Up"}
+          </h1>
+          <CloseButton handleClick={handleClose} />
         </div>
-        {!isLogin && (
+        <form
+          className={styles["authenticate-form"]}
+          onSubmit={(event) => handleSubmit(event)}
+        >
+          {validationErrors && <ValidationErrors errors={validationErrors} />}
           <div className={styles.field}>
-            <label htmlFor="display-name">Display Name</label>
+            <div className={styles["field-header"]}>
+              <label htmlFor="username">Username</label>
+              <span>{username && usernameAvailability}</span>
+            </div>
             <input
               type="text"
-              id="display-name"
-              name="display-name"
-              value={displayName}
-              onChange={(event) => setDisplayName(event.target.value)}
+              id="username"
+              name="username"
+              value={username}
+              onChange={(event) => handleUsernameChange(event.target)}
+              required
+              maxLength={isLogin ? undefined : 30}
             ></input>
           </div>
-        )}
-        <div className={styles.field}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-            minLength={isLogin ? undefined : 8}
-          ></input>
-        </div>
-        {!isLogin && (
+          {!isLogin && (
+            <div className={styles.field}>
+              <label htmlFor="display-name">Display Name</label>
+              <input
+                type="text"
+                id="display-name"
+                name="display-name"
+                value={displayName}
+                onChange={(event) => setDisplayName(event.target.value)}
+              ></input>
+            </div>
+          )}
           <div className={styles.field}>
-            <label htmlFor="confirm-password">Confirm Password</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
-              id="confirm-password"
-              name="confirm-password"
-              value={confirmPassword}
-              onChange={(event) => handleConfirmPasswordChange(event.target)}
+              id="password"
+              name="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
               required
+              minLength={isLogin ? undefined : 8}
             ></input>
           </div>
-        )}
-        <button type="submit" className={styles["submit-button"]}>
-          {isLogin ? "Login" : "Create account"}
-        </button>
-        {isLogin && (
-          <button
-            type="button"
-            className={styles["submit-button"]}
-            onClick={handleGuestAccountLogin}
-          >
-            Guest Account
-          </button>
-        )}
-      </form>
-      {isLogin ? (
-        <p>
-          New to Yeetyah?{" "}
-          <Link onClick={handleAuthModeSwitch} to="/signup">
-            Create an account
-          </Link>
-        </p>
-      ) : (
-        <p>
-          Already have an account?{" "}
-          <Link onClick={handleAuthModeSwitch} to="/login">
-            Login
-          </Link>
-        </p>
-      )}
+          {!isLogin && (
+            <div className={styles.field}>
+              <label htmlFor="confirm-password">Confirm Password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                value={confirmPassword}
+                onChange={(event) => handleConfirmPasswordChange(event.target)}
+                required
+              ></input>
+            </div>
+          )}
+          <div className={styles["button-container"]}>
+            <button type="submit" className={styles["submit-button"]}>
+              {isLogin ? "Login" : "Create account"}
+            </button>
+            {isLogin && (
+              <button
+                type="button"
+                className={styles["submit-button"]}
+                onClick={handleGuestAccountLogin}
+              >
+                Guest Account
+              </button>
+            )}
+          </div>
+          {isLogin ? (
+            <p>
+              New to Yeetyah?{" "}
+              <Link onClick={handleAuthModeSwitch} to="/signup">
+                Create an account
+              </Link>
+            </p>
+          ) : (
+            <p>
+              Already have an account?{" "}
+              <Link onClick={handleAuthModeSwitch} to="/login">
+                Login
+              </Link>
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }

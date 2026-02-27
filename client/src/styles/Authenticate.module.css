@@ -6,6 +6,13 @@
   gap: 8px;
 }
 
+.window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px;
+}
+
 .authenticate-form {
   margin: 20px;
   display: flex;
@@ -36,17 +43,23 @@
   padding: 8px;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
 .submit-button {
+  flex: 1;
   height: 40px;
   margin-top: 12px;
   padding: 8px;
-  color: white;
-  background: linear-gradient(
-    180deg,
-    var(--light-border-colour) 0%,
-    var(--main-border-colour) 10%,
-    var(--dark-border-colour) 90%
-  );
-  border: none;
+  color: darkblue;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: linear-gradient(180deg, #dee6fc 0%, #f8fff9 10%, #cbd3eb 90%);
+  border: 1px solid darkblue;
+  border-radius: 4px;
   cursor: pointer;
+  align-self: center;
 }
