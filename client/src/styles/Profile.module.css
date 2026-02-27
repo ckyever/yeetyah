@@ -55,6 +55,7 @@
   );
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 .logout-button {
