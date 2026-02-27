@@ -4,6 +4,8 @@ Instant messaging chat website using websockets. Built with React, Express, Post
 
 👉 [Live Demo](https://yeetyah.pages.dev)
 
+![Website screenshot](./screenshot.png)
+
 ## Acknowledgement
 
 Inspired from [The Odin Project](https://www.theodinproject.com/lessons/nodejs-messaging-app)
