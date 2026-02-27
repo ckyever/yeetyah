@@ -28,9 +28,11 @@ function Profile({
         {imagePreview && <img src={imagePreview} alt="your profile picture" />}
         <div className={styles["profile-text"]}>
           <h1 className={styles["profile-title"]}>{profileName}</h1>
-          <Link to="/profile" className={styles["edit-link"]}>
-            Edit
-          </Link>
+          {username != "guest" && (
+            <Link to="/profile" className={styles["edit-link"]}>
+              Edit
+            </Link>
+          )}
         </div>
       </div>
       <button className={styles["users-button"]} onClick={toggleUserList}>
