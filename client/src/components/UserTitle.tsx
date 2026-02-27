@@ -33,8 +33,7 @@ function UserTitle({
     ? `${styles["user-title"]} ${styles["list-item"]}`
     : `${styles["user-title"]}`;
 
-  const profileImage =
-    user.profile_image.length > 0 ? user.profile_image : defaultIcon;
+  const profileImage = user.profile_image ? user.profile_image : defaultIcon;
 
   return (
     <div className={userTitleClass}>
