@@ -80,14 +80,20 @@ function Authenticate({ authMode }: AuthenticateProps) {
     }
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (
+    manualUsername: string | null = null,
+    manualPassword: string | null = null,
+  ) => {
     const url = `${SERVER_URL}/api/auth/login`;
     const result: api.AuthResult = await api.apiFetch<api.AuthResult>(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({
+        username: manualUsername ?? username,
+        password: manualPassword ?? password,
+      }),
     });
 
     if (result.data.errors) {
@@ -164,6 +170,10 @@ function Authenticate({ authMode }: AuthenticateProps) {
     }
   };
 
+  const handleGuestAccountLogin = async () => {
+    await handleLogin("guest", "hunter2");
+  };
+
   return (
     <div className={styles["page-authenticate"]}>
       <form
@@ -227,6 +237,15 @@ function Authenticate({ authMode }: AuthenticateProps) {
         <button type="submit" className={styles["submit-button"]}>
           {isLogin ? "Login" : "Create account"}
         </button>
+        {isLogin && (
+          <button
+            type="button"
+            className={styles["submit-button"]}
+            onClick={handleGuestAccountLogin}
+          >
+            Guest Account
+          </button>
+        )}
       </form>
       {isLogin ? (
         <p>
