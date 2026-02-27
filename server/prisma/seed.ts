@@ -6,7 +6,7 @@ async function main() {
     update: {},
     create: {
       username: "guest",
-      password: "hunter2",
+      password: "$2b$10$TVHNlT7pc6SPTjM72m7X/.06A/zccTn6bFN.bowEjJXuDjRTEJnlK",
       display_name: "Guest Account",
     },
   });
